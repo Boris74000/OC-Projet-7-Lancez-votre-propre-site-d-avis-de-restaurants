@@ -1,0 +1,51 @@
+[
+    {
+        "restaurantName": "La Ciboulette",
+        "address": "10 Rue Vaugelas - Cour du Pré Carré, 74000 Annecy",
+        "lat": 45.90202596575145,
+        "long": 6.126262142126459,
+        "ratings": [
+            {
+                "stars": 4,
+                "comment": "Un excellent restaurant, j'y reviendrai ! Par contre il vaut mieux aimer la viande."
+            },
+            {
+                "stars": 5,
+                "comment": "Tout simplement mon restaurant préféré !"
+            }
+        ]
+    },
+    {
+        "restaurantName": "Le clos des sens",
+        "address": "13 Rue Jean Mermoz, 74940 Annecy",
+        "lat": 45.918057356570735,
+        "long": 6.1445196863029645,
+        "ratings": [
+            {
+                "stars": 5,
+                "comment": "Je ne peux que mettre 5 étoiles, c'est la deuxième fois que nous venons mon mari et moi et nous avons encore une fois été ravis."
+            },
+            {
+                "stars": 3,
+                "comment": "Accueil, service au top!"
+            }
+        ]
+    },
+    {
+        "restaurantName": "La Dolce Vita",
+        "address": "35 Av. de Cran, 74000 Annecy",
+        "lat": 45.90610101557426,
+        "long": 6.116306811445137,
+        "ratings": [
+            {
+                "stars": 5,
+                "comment": "Commandé à emporter, portions généreuses, tout était très bon et bien servis"
+            },
+            {
+                "stars": 3,
+                "comment": "Petit restaurant italien bien placé, propre et agréable."
+            }
+        ]
+    }
+]
+
