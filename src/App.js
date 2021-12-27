@@ -1,6 +1,6 @@
 import React from "react";
 
-import GoogleMap from "./GoogleMap";
+import Map from "./GoogleMap";
 
 function App() {
 
@@ -9,7 +9,7 @@ function App() {
             <h1>
                 Restaurant Advisor
             </h1>
-            <GoogleMap/>
+            <Map/>
         </div>
     );
 }
