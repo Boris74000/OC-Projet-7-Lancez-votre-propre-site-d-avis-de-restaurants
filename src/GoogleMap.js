@@ -1,42 +1,75 @@
-import React, {Component} from "react";
-import {Map, GoogleApiWrapper} from 'google-maps-react';
+import React, {useState, useEffect} from "react";
+import {GoogleMap, LoadScript, Marker, InfoWindow} from '@react-google-maps/api';
 
-class MapContainer extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            latitude: 45.90610101557426,
-            longitude: 5.116306811445137,
-        };
-    }
+import restaurants from "./restaurants.json";
 
-    componentDidMount() {
-        navigator.geolocation.watchPosition((position)=>{
-            this.setState({
-                latitude: position.coords.latitude,
-                longitude: position.coords.longitude
-            })
-        })
-    }
+const Map = () => {
+    const [currentPosition, setCurrentPosition] = useState({});
 
-    render() {
-        return (
-            <Map
-                google={this.props.google}
-                style={{width: "500px", height: "500px"}}
+    const success = position => {
+        const currentPosition = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+        }
+        setCurrentPosition(currentPosition);
+    };
+
+    useEffect(() => {
+        navigator.geolocation.getCurrentPosition(success);
+    })
+
+    const containerStyle = {
+        width: '400px',
+        height: '400px'
+    };
+
+    return (
+        <LoadScript
+            googleMapsApiKey="AIzaSyC2-n39eQnutXECIDc-9tlNMNFmxzshDtE"
+        >
+            <GoogleMap
+                mapContainerStyle={containerStyle}
+                center={currentPosition}
                 zoom={10}
-                center={
-                    {
-                        lat: this.state.latitude,
-                        lng: this.state.longitude
-                    }
-                }
-            />
+            >
+                {restaurants.map(
+                    coords => <Marker
+                        position=
+                            {
+                                {
+                                    lat: coords.lat,
+                                    lng: coords.long
+                                }
+                            }
 
-        );
-    }
-}
+                        icon={{url: "https://maps.google.com/mapfiles/ms/icons/blue-dot.png"}}
+                    />
+                )}
 
-export default GoogleApiWrapper({
-    apiKey: "AIzaSyC2-n39eQnutXECIDc-9tlNMNFmxzshDtE"
-})(MapContainer)
+                <Marker
+                    position={currentPosition}
+                >
+                    <InfoWindow
+                        options=
+                            {
+                                {
+                                    pixelOffset:
+                                        {
+                                            width: 0,
+                                            height: -45
+                                        }
+                                }
+                            }
+                        position={currentPosition}>
+                        <div>
+                            <p>Your current position</p>
+                        </div>
+                    </InfoWindow>
+                </Marker>
+            </GoogleMap>
+        </LoadScript>
+    );
+};
+
+export default Map;
+
