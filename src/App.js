@@ -1,16 +1,20 @@
 import React from "react";
 
-import Map from "./GoogleMap";
+import restaurantsJson from "./restaurants.json";
+
+import Map from "./Map";
+import RestaurantsList from "./RestaurantsList";
+
+import classes from "./App.module.css";
 
 function App() {
 
     return (
-        <div>
-            <h1>
-                Restaurant Advisor
-            </h1>
-            <Map/>
-        </div>
+        <section className={classes.mapAndListContainer}>
+            <RestaurantsList className={classes.list} restaurantsJson={restaurantsJson}/>
+            <Map restaurantsJson={restaurantsJson}/>
+        </section>
+
     );
 }
 

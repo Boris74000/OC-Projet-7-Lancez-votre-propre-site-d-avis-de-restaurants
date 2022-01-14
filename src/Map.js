@@ -1,9 +1,8 @@
 import React, {useState, useEffect} from "react";
-import {GoogleMap, LoadScript, Marker, InfoWindow} from '@react-google-maps/api';
+import {GoogleMap, LoadScript, Marker, InfoWindow, useGoogleMap} from '@react-google-maps/api';
 
-import restaurants from "./restaurants.json";
 
-const Map = () => {
+const Map = (props) => {
     const [currentPosition, setCurrentPosition] = useState({});
 
     const success = position => {
@@ -14,14 +13,27 @@ const Map = () => {
         setCurrentPosition(currentPosition);
     };
 
-    useEffect(() => {
-        navigator.geolocation.getCurrentPosition(success);
-    })
+    const map = useGoogleMap()
+
+    React.useEffect(() => {
+        if (map) {
+            console.log(map.getBounds());
+        }
+    }, [map])
+
+    // useEffect(() => {
+    navigator.geolocation.getCurrentPosition(success);
+    // })
 
     const containerStyle = {
         width: '400px',
         height: '400px'
     };
+
+    const getBounds = () => {
+        const bounds = new window.google.maps.LatLngBounds();
+        console.log(bounds);
+    }
 
     return (
         <LoadScript
@@ -31,18 +43,22 @@ const Map = () => {
                 mapContainerStyle={containerStyle}
                 center={currentPosition}
                 zoom={10}
+                onDragEnd={getBounds}
             >
-                {restaurants.map(
-                    coords => <Marker
+                {props.restaurantsJson.map(
+                    (element, index) => <Marker
+                        key={index}
+                        // ref={onMarkerMounted}
                         position=
                             {
                                 {
-                                    lat: coords.lat,
-                                    lng: coords.long
+                                    lat: element.lat,
+                                    lng: element.long
                                 }
                             }
 
                         icon={{url: "https://maps.google.com/mapfiles/ms/icons/blue-dot.png"}}
+                        name={element.restaurantName}
                     />
                 )}
 
