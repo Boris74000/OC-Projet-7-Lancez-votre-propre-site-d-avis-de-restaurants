@@ -1,0 +1,9 @@
+.mapAndListContainer {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.list {
+    padding-right: 1rem;
+}
