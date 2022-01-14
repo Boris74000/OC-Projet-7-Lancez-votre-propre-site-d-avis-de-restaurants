@@ -16,7 +16,7 @@
         ]
     },
     {
-        "restaurantName": "Le clos des sens",
+        "restaurantName": "Le Clos Des Sens",
         "address": "13 Rue Jean Mermoz, 74940 Annecy",
         "lat": 45.918057356570735,
         "long": 6.1445196863029645,
@@ -36,6 +36,22 @@
         "address": "35 Av. de Cran, 74000 Annecy",
         "lat": 45.90610101557426,
         "long": 6.116306811445137,
+        "ratings": [
+            {
+                "stars": 5,
+                "comment": "Commandé à emporter, portions généreuses, tout était très bon et bien servis"
+            },
+            {
+                "stars": 3,
+                "comment": "Petit restaurant italien bien placé, propre et agréable."
+            }
+        ]
+    },
+    {
+        "restaurantName": "Le Palace de Menthon",
+        "address": "665 Rte des Bains, 74290 Menthon-Saint-Bernard",
+        "lat": 45.85575202601128,
+        "long": 6.1896215153125445,
         "ratings": [
             {
                 "stars": 5,
