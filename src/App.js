@@ -1,20 +1,25 @@
-import React from "react";
-
-import restaurantsJson from "./restaurants.json";
+import React, { useState } from "react";
 
 import Map from "./Map";
 import RestaurantsList from "./RestaurantsList";
 
 import classes from "./App.module.css";
+import { RestaurantContextProvider } from "./store/RestaurantContext";
+import RestaurantsFilter from "./RestaurantsFilter";
 
 function App() {
-
     return (
-        <section className={classes.mapAndListContainer}>
-            <RestaurantsList className={classes.list} restaurantsJson={restaurantsJson}/>
-            <Map restaurantsJson={restaurantsJson}/>
-        </section>
-
+        <RestaurantContextProvider>
+            <section>
+                <RestaurantsFilter/>
+            </section>
+            <section className={ classes.mapAndListContainer }>
+                <RestaurantsList
+                    className={ classes.list }
+                />
+                <Map/>
+            </section>
+        </RestaurantContextProvider>
     );
 }
 
