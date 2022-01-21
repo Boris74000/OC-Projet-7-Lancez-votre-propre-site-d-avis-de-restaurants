@@ -5,16 +5,19 @@ import restaurantsJson from "../restaurants.json";
 export const RestaurantContext = createContext();
 
 export const RestaurantContextProvider = (props) => {
-    // console.log(restaurantsJson);
     const [ restaurants, setRestaurants ] = useState(restaurantsJson);
-    const [ restaurantsInBounds, setRestaurantsInBounds ] = useState();
+
+    const updateRestaurants = (filteredRestaurants) => {
+        console.log(filteredRestaurants);
+        setRestaurants(filteredRestaurants);
+    }
 
     return (
         <RestaurantContext.Provider
             value={
                 {
-                    restaurants: [restaurants, setRestaurants],
-                    restaurantsInBounds: [restaurantsInBounds, setRestaurantsInBounds]
+                    restaurants: restaurants,
+                    updateRestaurants: updateRestaurants
                 }
             }
         >
