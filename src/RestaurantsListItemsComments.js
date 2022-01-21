@@ -3,7 +3,7 @@ import React from 'react';
 const RestaurantsListItemsComments = (props) => {
     return (
         <p>
-            {props.comment}
+            <span>{props.stars}⭐ => </span>{props.comment}
         </p>
     );
 };

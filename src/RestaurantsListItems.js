@@ -21,6 +21,7 @@ const RestaurantsListItems = (props) => {
                     <RestaurantsListItemsComments
                         key={index}
                         comment={elt.comment}
+                        stars={elt.stars}
                     />
                 )
             }

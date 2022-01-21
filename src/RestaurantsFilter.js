@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
 
 const RestaurantsFilter = () => {
-    const [minStars, setMinStars] = useState();
-    const [maxStars, setMaxStars] = useState();
+    const [minStars, setMinStars] = useState(1);
+    const [maxStars, setMaxStars] = useState(5);
 
     const formRestaurantsFilter = (e) => {
         e.preventDefault();
-        alert("form submit");
+        console.log("form submit");
         console.log(minStars, maxStars);
     }
 
@@ -17,7 +17,7 @@ const RestaurantsFilter = () => {
 
     const maxStarsAmountChangeHandler = (e) => {
         console.log(e.target.value);
-        setMaxStars(e.target.value);
+        setMaxStars(Number(e.target.value));
     }
 
     return (
@@ -25,11 +25,21 @@ const RestaurantsFilter = () => {
             <div>
                 <h4>Filter restaurants by ratings</h4>
                 <span>Entre</span>
-                <input type="number" id="minStars" name="minStars" onChange={minStarsChangeHandler}
-                       min="1" max="5" defaultValue={"1"} required/>
+                <select name="minStars" id="minStars" required onChange={minStarsChangeHandler}>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
                 <span>Et</span>
-                <input type="number" id="maxStars" name="maxStars" onChange={maxStarsAmountChangeHandler}
-                       min="1" max="5" defaultValue={"5"} required/>
+                <select name="maxStars" id="maxStars" value={maxStars} required onChange={maxStarsAmountChangeHandler}>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
                 <span>Étoiles</span>
             </div>
             <div>
