@@ -1,13 +1,16 @@
-import React, {useState} from 'react';
+import React, {useCallback, useContext, useState} from 'react';
+import {RestaurantContext} from "./store/RestaurantContext";
 
 const RestaurantsFilter = () => {
     const [minStars, setMinStars] = useState(1);
     const [maxStars, setMaxStars] = useState(5);
+    const ctx = useContext(RestaurantContext);
 
     const formRestaurantsFilter = (e) => {
         e.preventDefault();
         console.log("form submit");
         console.log(minStars, maxStars);
+        ctx.updateRestaurantsByRatings(minStars, maxStars);
     }
 
     const minStarsChangeHandler = (e) => {
