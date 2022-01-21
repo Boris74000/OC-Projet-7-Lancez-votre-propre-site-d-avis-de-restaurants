@@ -14,6 +14,7 @@ const RestaurantsListItems = (props) => {
         <li onClick={displayComment} className={classes.listItem}>
             {props.name}
             <p>
+                <span>Note moyenne: </span>
                 {props.elt.ratings.reduce((previousValue, currentValue) => previousValue + currentValue.stars, 0) / props.elt.ratings.length}
             </p>
             {isCommentShowed === true &&
