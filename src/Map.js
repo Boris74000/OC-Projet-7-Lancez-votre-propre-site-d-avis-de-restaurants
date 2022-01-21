@@ -1,19 +1,11 @@
 import React, { useState, useCallback, useContext } from "react";
 import { GoogleMap, Marker, InfoWindow, useJsApiLoader } from "@react-google-maps/api";
 import { RestaurantContext } from "./store/RestaurantContext";
-import restaurantsJson from "./restaurants.json";
 
-const Map = (props) => {
+const Map = () => {
     const [map, setMap] = useState(null);
     const [currentPosition, setCurrentPosition] = useState({});
-    const [bounds, setBounds] = useState();
-    // const [markers, setMarkers] = useState(props.restaurantsJson);
-    // const [restaurants, setRestaurants ] = useContext(RestaurantContext);
-
-    // console.log(ctx.restaurants)
-    const {restaurants, restaurantsInBounds} = useContext(RestaurantContext);
-    const [ stateRestaurants, setStateRestaurants ] = restaurants;
-    const [ stateRestaurantsInBounds, setStateRestaurantsInBounds ] = restaurantsInBounds;
+    const ctx = useContext(RestaurantContext);
 
     const getBounds = () => {
         const boundsNordEstlat = map.getBounds().getNorthEast().lat();
@@ -21,7 +13,7 @@ const Map = (props) => {
         const boundsSudOuestlat = map.getBounds().getSouthWest().lat();
         const boundsSudOuestlng = map.getBounds().getSouthWest().lng();
 
-        const filteredRestaurants = stateRestaurants.filter(restaurant => {
+        const filteredRestaurants = ctx.restaurants.filter(restaurant => {
                 if ((restaurant.lat > boundsSudOuestlat) &&
                     (restaurant.lat < boundsNordEstlat) &&
                     (restaurant.lng > boundsSudOuestlng) &&
@@ -32,10 +24,7 @@ const Map = (props) => {
         );
 
         console.log(filteredRestaurants);
-        // setStateRestaurantsInBounds(filteredRestaurants);
-        // console.log(stateRestaurantsInBounds);
-        // console.log(restaurantsInBounds);
-
+        ctx.updateRestaurants(filteredRestaurants);
     }
 
     const success = position => {
@@ -63,7 +52,6 @@ const Map = (props) => {
 
     const onLoad = useCallback(function callback(map) {
         const bounds = new window.google.maps.LatLngBounds();
-        // map.fitBounds(bounds);
         setMap(map);
     }, []);
 
@@ -74,15 +62,13 @@ const Map = (props) => {
     return isLoaded ? (
         <GoogleMap
             mapContainerStyle={containerStyle}
-            // center={center}
             center={currentPosition}
             zoom={10}
             onLoad={onLoad}
             onUnmount={onUnmount}
-            // onDragEnd={() => console.log(map.getBounds())}
             onDragEnd={getBounds}
         >
-            {stateRestaurants.map(
+            {ctx.restaurants.map(
                 (element, index) => <Marker
                     key={index}
                     position=
