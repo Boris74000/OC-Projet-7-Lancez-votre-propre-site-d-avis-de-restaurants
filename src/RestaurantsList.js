@@ -13,6 +13,8 @@ const RestaurantsList = () => {
                     key={ index }
                     elt = { elt }
                     name={ elt.restaurantName }
+                    lat={elt.lat}
+                    lng={elt.lng}
                 />
             )}
         </ul>
