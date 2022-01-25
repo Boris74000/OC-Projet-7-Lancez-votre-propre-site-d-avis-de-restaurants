@@ -17,6 +17,11 @@ const RestaurantsListItems = (props) => {
                 <span>Note moyenne: </span>
                 {props.elt.ratings.reduce((previousValue, currentValue) => previousValue + currentValue.stars, 0) / props.elt.ratings.length}
             </p>
+
+            {isCommentShowed === true &&
+                <img src={`https://maps.googleapis.com/maps/api/streetview?size=600x300&location=${props.lat},${props.lng}&heading=220.78&key=AIzaSyC2-n39eQnutXECIDc-9tlNMNFmxzshDtE&amp`} alt="restaurant picture"/>
+            }
+
             {isCommentShowed === true &&
                 props.elt.ratings.map((elt, index) =>
                     <RestaurantsListItemsComments
