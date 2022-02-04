@@ -1,4 +1,4 @@
-import React, {useCallback, useContext, useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {RestaurantContext} from "./store/RestaurantContext";
 
 const RestaurantsFilter = () => {
@@ -8,18 +8,15 @@ const RestaurantsFilter = () => {
 
     const formRestaurantsFilter = (e) => {
         e.preventDefault();
-        console.log("form submit");
-        console.log(minStars, maxStars);
-        ctx.updateRestaurantsByRatings(minStars, maxStars);
+        ctx.updateMinStars(minStars);
+        ctx.updateMaxStars(maxStars);
     }
 
     const minStarsChangeHandler = (e) => {
-        console.log(e.target.value);
-        setMinStars(e.target.value);
+        setMinStars(Number(e.target.value));
     }
 
-    const maxStarsAmountChangeHandler = (e) => {
-        console.log(e.target.value);
+    const maxStarsChangeHandler = (e) => {
         setMaxStars(Number(e.target.value));
     }
 
@@ -27,7 +24,7 @@ const RestaurantsFilter = () => {
         <form onSubmit={formRestaurantsFilter}>
             <div>
                 <h4>Filter restaurants by ratings</h4>
-                <span>Entre</span>
+                <span>Between </span>
                 <select name="minStars" id="minStars" required onChange={minStarsChangeHandler}>
                     <option value="1">1</option>
                     <option value="2">2</option>
@@ -35,15 +32,15 @@ const RestaurantsFilter = () => {
                     <option value="4">4</option>
                     <option value="5">5</option>
                 </select>
-                <span>Et</span>
-                <select name="maxStars" id="maxStars" value={maxStars} required onChange={maxStarsAmountChangeHandler}>
+                <span> And </span>
+                <select name="maxStars" id="maxStars" value={maxStars} required onChange={maxStarsChangeHandler}>
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
                     <option value="4">4</option>
                     <option value="5">5</option>
                 </select>
-                <span>Étoiles</span>
+                <span> Stars</span>
             </div>
             <div>
                 <button type='submit'>Search</button>
