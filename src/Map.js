@@ -1,13 +1,17 @@
-import React, { useState, useCallback, useContext } from "react";
-import { GoogleMap, Marker, InfoWindow, useJsApiLoader } from "@react-google-maps/api";
-import { RestaurantContext } from "./store/RestaurantContext";
+import React, {useState, useCallback, useContext, useEffect} from "react";
+import {GoogleMap, Marker, InfoWindow, useJsApiLoader} from "@react-google-maps/api";
+import {RestaurantContext} from "./store/RestaurantContext";
+import AddNewRestaurantForm from "./AddNewRestaurantForm";
 
-const Map = () => {
+const Map = (props) => {
     const [map, setMap] = useState(null);
     const [currentPosition, setCurrentPosition] = useState({});
+    const [isDisplayAddNewRestaurantForm, setIsDisplayAddNewRestaurantForm] = useState(false);
+    const [positionClickedOnMap, setPositionClickedOnMap] = useState();
     const ctx = useContext(RestaurantContext);
 
-    const getBounds = () => {
+
+    const getRestaurantsInBounds = () => {
         const boundsNordEstlat = map.getBounds().getNorthEast().lat();
         const boundsNordEstlng = map.getBounds().getNorthEast().lng();
         const boundsSudOuestlat = map.getBounds().getSouthWest().lat();
@@ -23,8 +27,16 @@ const Map = () => {
             }
         );
 
-        console.log(filteredRestaurants);
-        ctx.updateRestaurants(filteredRestaurants);
+        ctx.updateRestaurantsFilteredInList(filteredRestaurants);
+    }
+
+    const getPositionClickedOnMap = (e) => {
+        setIsDisplayAddNewRestaurantForm(true);
+        setPositionClickedOnMap(e);
+    }
+
+    const HideAddNewRestaurantForm = () => {
+        setIsDisplayAddNewRestaurantForm(false);
     }
 
     const success = position => {
@@ -35,9 +47,9 @@ const Map = () => {
         setCurrentPosition(currentPosition);
     };
 
-    // useEffect(() => {
-    navigator.geolocation.getCurrentPosition(success);
-    // })
+    useEffect(() => {
+        navigator.geolocation.getCurrentPosition(success);
+    }, []);
 
     const containerStyle = {
         width: '400px',
@@ -60,52 +72,63 @@ const Map = () => {
     }, []);
 
     return isLoaded ? (
-        <GoogleMap
-            mapContainerStyle={containerStyle}
-            center={currentPosition}
-            zoom={10}
-            onLoad={onLoad}
-            onUnmount={onUnmount}
-            onDragEnd={getBounds}
-        >
-            {ctx.restaurants.map(
-                (element, index) => <Marker
-                    key={index}
-                    position=
-                        {
-                            {
-                                lat: element.lat,
-                                lng: element.lng
-                            }
-                        }
-
-                    icon={{url: "https://maps.google.com/mapfiles/ms/icons/blue-dot.png"}}
-                    name={element.restaurantName}
-                />
-            )}
-
-            <Marker
-                position={currentPosition}
+        <>
+            <GoogleMap
+                mapContainerStyle={containerStyle}
+                center={currentPosition}
+                zoom={10}
+                onLoad={onLoad}
+                onUnmount={onUnmount}
+                onDragEnd={getRestaurantsInBounds}
+                onClick={getPositionClickedOnMap}
             >
-                <InfoWindow
-                    options=
-                        {
+                {ctx.restaurants.map(
+                    (element, index) => <Marker
+                        key={index}
+                        position=
                             {
-                                pixelOffset:
-                                    {
-                                        width: 0,
-                                        height: -45
-                                    }
+                                {
+                                    lat: element.lat,
+                                    lng: element.lng
+                                }
                             }
-                        }
-                    position={currentPosition}>
-                    <div>
-                        <p>Your current position</p>
-                    </div>
-                </InfoWindow>
-            </Marker>
 
-        </GoogleMap>
+                        icon={{url: "https://maps.google.com/mapfiles/ms/icons/blue-dot.png"}}
+                        name={element.restaurantName}
+                    />
+                )}
+
+                <Marker
+                    position={currentPosition}
+                >
+                    <InfoWindow
+                        options=
+                            {
+                                {
+                                    pixelOffset:
+                                        {
+                                            width: 0,
+                                            height: -45
+                                        }
+                                }
+                            }
+                        position={currentPosition}>
+                        <div>
+                            <p>Your current position</p>
+                        </div>
+                    </InfoWindow>
+                </Marker>
+
+            </GoogleMap>
+
+            {isDisplayAddNewRestaurantForm &&
+                <AddNewRestaurantForm
+                    onHideAddNewRestaurantForm={HideAddNewRestaurantForm}
+                    positionClickedOnMap={positionClickedOnMap}
+                />
+            }
+        </>
+
     ) : (
         <p>Map can't be load</p>
     );
