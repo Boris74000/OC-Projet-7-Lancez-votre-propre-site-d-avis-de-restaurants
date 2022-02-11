@@ -1,0 +1,21 @@
+.overlay {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.80);
+    top: 0;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    z-index: 1;
+}
+
+.cartModal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 2;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    width: 30rem;
+    padding: 1rem;
+    list-style: none;
+}
