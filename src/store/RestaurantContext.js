@@ -1,36 +1,36 @@
-import React, { useState, createContext } from "react";
+import React, {useState, createContext} from "react";
 
 import restaurantsJson from "../restaurants.json";
 
 export const RestaurantContext = createContext();
 
 export const RestaurantContextProvider = (props) => {
-    const [ restaurants, setRestaurants ] = useState(restaurantsJson);
-    const [ restaurantsFilteredInList, setRestaurantsFilteredInList ] = useState(restaurantsJson);
+    const [restaurants, setRestaurants] = useState(restaurantsJson);
+    const [restaurantsFilteredInList, setRestaurantsFilteredInList] = useState(restaurantsJson);
+    const [minStars, setMinStars] = useState(1);
+    const [maxStars, setMaxStars] = useState(5);
 
-    const updateRestaurants = (filteredRestaurants) => {
+    const updateRestaurants = (restaurantsUpdated) => {
+        console.log(restaurantsUpdated);
+        setRestaurants([...restaurants, restaurantsUpdated]);
+    }
+
+    const updateRestaurantsFilteredInList = (filteredRestaurants) => {
         console.log(filteredRestaurants);
+        console.log("context")
         setRestaurantsFilteredInList(filteredRestaurants);
-    }
+    };
 
-    // En cours de dev
-    const updateRestaurantsByRatings = (minStars, maxStars) => {
-        console.log(minStars, maxStars);
-        // setRestaurantsFilteredInList(filteredRestaurants);
-        for (let i = 0; i < restaurantsFilteredInList.length; i++ ) {
-            console.log(restaurantsFilteredInList[i].ratings);
+    const updateMinStars = (data) => {
+        console.log(data);
+        setMinStars(data);
+    };
 
-            for (let j = 0; j < restaurantsFilteredInList[i].ratings.length; j++) {
-                console.log(restaurantsFilteredInList[i].ratings[j]);
-                const restaurantsFilteredByRatings = restaurantsFilteredInList.filter(restaurant => {
-                    if ((restaurant.stars >= minStars) && (restaurant.stars <= maxStars)) {
-                        return true;
-                    }
-                })
-                console.log(restaurantsFilteredByRatings);
-            }
-        }
-    }
+    const updateMaxStars = (data) => {
+        console.log(data);
+        setMaxStars(data);
+    };
+
 
     return (
         <RestaurantContext.Provider
@@ -38,8 +38,12 @@ export const RestaurantContextProvider = (props) => {
                 {
                     restaurants: restaurants,
                     restaurantsFilteredInList: restaurantsFilteredInList,
+                    minStars: minStars,
+                    maxStars: maxStars,
                     updateRestaurants: updateRestaurants,
-                    updateRestaurantsByRatings: updateRestaurantsByRatings
+                    updateRestaurantsFilteredInList: updateRestaurantsFilteredInList,
+                    updateMinStars: updateMinStars,
+                    updateMaxStars: updateMaxStars
                 }
             }
         >
