@@ -1,6 +1,6 @@
 import React, {useReducer, useContext} from 'react';
 import classes from "./AddNewRestaurantForm.module.css";
-import {RestaurantContext} from "./store/RestaurantContext";
+import {RestaurantContext} from "../../../store/RestaurantContext";
 
 const AddNewRestaurantForm = (props) => {
     const ctx = useContext(RestaurantContext);
@@ -27,13 +27,9 @@ const AddNewRestaurantForm = (props) => {
     }
 
     const [state, dispatch] = useReducer(formReducer, initialState);
-    // const [restaurantName, restaurantAddress, restaurantRating, restaurantComment] = state;
-    // console.log(props.positionClickedOnMap);
 
     const submitHandler = (e) => {
         e.preventDefault();
-        // console.log(state);
-        // console.log(props.positionClickedOnMap.latLng.lat());
 
         const newRestaurant = {
             "restaurantName": state.restaurantName,
@@ -47,8 +43,8 @@ const AddNewRestaurantForm = (props) => {
                 }
             ]
         };
-
         ctx.updateRestaurants(newRestaurant);
+        props.addNewRestaurant(newRestaurant);
         props.onHideAddNewRestaurantForm();
     };
 
