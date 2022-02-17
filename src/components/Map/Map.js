@@ -1,15 +1,18 @@
-import React, {useState, useCallback, useContext, useEffect} from "react";
+import React, {useState, useCallback, useEffect} from "react";
 import {GoogleMap, Marker, InfoWindow, useJsApiLoader} from "@react-google-maps/api";
-import {RestaurantContext} from "./store/RestaurantContext";
-import AddNewRestaurantForm from "./AddNewRestaurantForm";
+import AddNewRestaurantForm from "../Restaurants/AddNewRestaurantForm/AddNewRestaurantForm";
+
+
 
 const Map = (props) => {
     const [map, setMap] = useState(null);
     const [currentPosition, setCurrentPosition] = useState({});
     const [isDisplayAddNewRestaurantForm, setIsDisplayAddNewRestaurantForm] = useState(false);
     const [positionClickedOnMap, setPositionClickedOnMap] = useState();
-    const ctx = useContext(RestaurantContext);
 
+    const addNewRestaurant = (data) => {
+        props.addNewRestaurant(data);
+    }
 
     const getRestaurantsInBounds = () => {
         const boundsNordEstlat = map.getBounds().getNorthEast().lat();
@@ -17,17 +20,7 @@ const Map = (props) => {
         const boundsSudOuestlat = map.getBounds().getSouthWest().lat();
         const boundsSudOuestlng = map.getBounds().getSouthWest().lng();
 
-        const filteredRestaurants = ctx.restaurants.filter(restaurant => {
-                if ((restaurant.lat > boundsSudOuestlat) &&
-                    (restaurant.lat < boundsNordEstlat) &&
-                    (restaurant.lng > boundsSudOuestlng) &&
-                    (restaurant.lng < boundsNordEstlng)) {
-                    return true;
-                }
-            }
-        );
-
-        ctx.updateRestaurantsFilteredInList(filteredRestaurants);
+        props.getBounds(boundsNordEstlat, boundsNordEstlng, boundsSudOuestlat, boundsSudOuestlng);
     }
 
     const getPositionClickedOnMap = (e) => {
@@ -82,7 +75,7 @@ const Map = (props) => {
                 onDragEnd={getRestaurantsInBounds}
                 onClick={getPositionClickedOnMap}
             >
-                {ctx.restaurants.map(
+                {props.restaurantsFiltered.map(
                     (element, index) => <Marker
                         key={index}
                         position=
@@ -108,7 +101,7 @@ const Map = (props) => {
                                     pixelOffset:
                                         {
                                             width: 0,
-                                            height: -45
+                                            height: 0
                                         }
                                 }
                             }
@@ -125,6 +118,7 @@ const Map = (props) => {
                 <AddNewRestaurantForm
                     onHideAddNewRestaurantForm={HideAddNewRestaurantForm}
                     positionClickedOnMap={positionClickedOnMap}
+                    addNewRestaurant={addNewRestaurant}
                 />
             }
         </>
