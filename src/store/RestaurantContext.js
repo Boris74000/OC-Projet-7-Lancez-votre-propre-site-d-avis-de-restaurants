@@ -1,33 +1,23 @@
 import React, {useState, createContext} from "react";
 
-import restaurantsJson from "../restaurants.json";
+import restaurantsJson from "../assets/restaurants.json";
 
 export const RestaurantContext = createContext();
 
 export const RestaurantContextProvider = (props) => {
     const [restaurants, setRestaurants] = useState(restaurantsJson);
-    const [restaurantsFilteredInList, setRestaurantsFilteredInList] = useState(restaurantsJson);
     const [minStars, setMinStars] = useState(1);
     const [maxStars, setMaxStars] = useState(5);
 
     const updateRestaurants = (restaurantsUpdated) => {
-        console.log(restaurantsUpdated);
-        setRestaurants([...restaurants, restaurantsUpdated]);
-    }
-
-    const updateRestaurantsFilteredInList = (filteredRestaurants) => {
-        console.log(filteredRestaurants);
-        console.log("context")
-        setRestaurantsFilteredInList(filteredRestaurants);
+        setRestaurants(prevState => [...restaurants, restaurantsUpdated]);
     };
 
     const updateMinStars = (data) => {
-        console.log(data);
         setMinStars(data);
     };
 
     const updateMaxStars = (data) => {
-        console.log(data);
         setMaxStars(data);
     };
 
@@ -37,11 +27,9 @@ export const RestaurantContextProvider = (props) => {
             value={
                 {
                     restaurants: restaurants,
-                    restaurantsFilteredInList: restaurantsFilteredInList,
                     minStars: minStars,
                     maxStars: maxStars,
                     updateRestaurants: updateRestaurants,
-                    updateRestaurantsFilteredInList: updateRestaurantsFilteredInList,
                     updateMinStars: updateMinStars,
                     updateMaxStars: updateMaxStars
                 }
