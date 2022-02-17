@@ -2,7 +2,7 @@ import React, {useState} from "react";
 
 import classes from "./RestaurantsListItems.module.css";
 import RestaurantsListItemsComments from "./RestaurantsListItemsComments";
-import AddReviewForm from "./AddReviewForm";
+    import AddReviewForm from "../AddReviewForm";
 
 const RestaurantsListItems = (props) => {
     const [isCommentShowed, setIsCommentShowed] = useState(false);

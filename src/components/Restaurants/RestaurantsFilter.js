@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react';
-import {RestaurantContext} from "./store/RestaurantContext";
+import {RestaurantContext} from "../../store/RestaurantContext";
 
 const RestaurantsFilter = () => {
     const [minStars, setMinStars] = useState(1);
