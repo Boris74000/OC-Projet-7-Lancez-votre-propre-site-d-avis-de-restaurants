@@ -3,34 +3,25 @@ import {GoogleMap, Marker, InfoWindow, useJsApiLoader} from "@react-google-maps/
 import AddNewRestaurantForm from "../Restaurants/AddNewRestaurantForm/AddNewRestaurantForm";
 
 
-
 const Map = (props) => {
     const [map, setMap] = useState(null);
     const [currentPosition, setCurrentPosition] = useState({});
     const [isDisplayAddNewRestaurantForm, setIsDisplayAddNewRestaurantForm] = useState(false);
     const [positionClickedOnMap, setPositionClickedOnMap] = useState();
+    const [restaurantsWithGooglePlaces, setRestaurantsWithGooglePlaces] = useState([]);
 
     const addNewRestaurant = (data) => {
         props.addNewRestaurant(data);
-    }
-
-    const getRestaurantsInBounds = () => {
-        const boundsNordEstlat = map.getBounds().getNorthEast().lat();
-        const boundsNordEstlng = map.getBounds().getNorthEast().lng();
-        const boundsSudOuestlat = map.getBounds().getSouthWest().lat();
-        const boundsSudOuestlng = map.getBounds().getSouthWest().lng();
-
-        props.getBounds(boundsNordEstlat, boundsNordEstlng, boundsSudOuestlat, boundsSudOuestlng);
-    }
+    };
 
     const getPositionClickedOnMap = (e) => {
         setIsDisplayAddNewRestaurantForm(true);
         setPositionClickedOnMap(e);
-    }
+    };
 
     const HideAddNewRestaurantForm = () => {
         setIsDisplayAddNewRestaurantForm(false);
-    }
+    };
 
     const success = position => {
         const currentPosition = {
@@ -49,32 +40,65 @@ const Map = (props) => {
         height: '400px'
     };
 
-
     const {isLoaded} = useJsApiLoader({
         id: "google-map-script",
-        googleMapsApiKey: "AIzaSyC2-n39eQnutXECIDc-9tlNMNFmxzshDtE"
+        googleMapsApiKey: "AIzaSyC2-n39eQnutXECIDc-9tlNMNFmxzshDtE",
+        libraries: ["places"],
     });
 
-    const onLoad = useCallback(function callback(map) {
-        const bounds = new window.google.maps.LatLngBounds();
+    const onMapLoad = (map) => {
+        let request = {
+            location: {lng: 6.126262142126459, lat: 45.90202596575145},
+            radius: '2000',
+            type: ['restaurant']
+        };
+
+        let service = new window.google.maps.places.PlacesService(map);
+
+        service.nearbySearch(request, (results, status) => {
+            if (status == window.google.maps.places.PlacesServiceStatus.OK) {
+                console.log(results);
+                setRestaurantsWithGooglePlaces(results);
+            }
+        })
+
         setMap(map);
-    }, []);
+    };
 
     const onUnmount = useCallback(function callback(map) {
         setMap(null);
     }, []);
+
+    const getRestaurantsInBounds = () => {
+        const boundsNordEstlat = map.getBounds().getNorthEast().lat();
+        const boundsNordEstlng = map.getBounds().getNorthEast().lng();
+        const boundsSudOuestlat = map.getBounds().getSouthWest().lat();
+        const boundsSudOuestlng = map.getBounds().getSouthWest().lng();
+
+        props.getBounds(boundsNordEstlat, boundsNordEstlng, boundsSudOuestlat, boundsSudOuestlng);
+    };
 
     return isLoaded ? (
         <>
             <GoogleMap
                 mapContainerStyle={containerStyle}
                 center={currentPosition}
-                zoom={10}
-                onLoad={onLoad}
+                zoom={11}
+                onLoad={(map) => onMapLoad(map)}
                 onUnmount={onUnmount}
                 onDragEnd={getRestaurantsInBounds}
                 onClick={getPositionClickedOnMap}
             >
+
+                {restaurantsWithGooglePlaces !== [] && restaurantsWithGooglePlaces.map(
+                    (element, index) => <Marker
+                        key={index}
+                        position={element.geometry.location}
+                        icon={{url: "https://maps.google.com/mapfiles/ms/icons/pink-dot.png"}}
+                        name={element.restaurantName}
+                    />
+                )};
+
                 {props.restaurantsFiltered.map(
                     (element, index) => <Marker
                         key={index}
@@ -89,7 +113,7 @@ const Map = (props) => {
                         icon={{url: "https://maps.google.com/mapfiles/ms/icons/blue-dot.png"}}
                         name={element.restaurantName}
                     />
-                )}
+                )};
 
                 <Marker
                     position={currentPosition}
@@ -120,7 +144,7 @@ const Map = (props) => {
                     positionClickedOnMap={positionClickedOnMap}
                     addNewRestaurant={addNewRestaurant}
                 />
-            }
+            };
         </>
 
     ) : (
