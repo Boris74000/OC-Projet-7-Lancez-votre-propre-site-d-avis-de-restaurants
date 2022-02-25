@@ -1,8 +1,7 @@
-import React, {useState, useCallback, useEffect} from "react";
+import React, {useState, useCallback, useEffect, useContext} from "react";
 import {GoogleMap, Marker, InfoWindow, useJsApiLoader} from "@react-google-maps/api";
 import AddNewRestaurantForm from "../Restaurants/AddNewRestaurantForm/AddNewRestaurantForm";
-
-
+import {RestaurantContext} from "../../store/RestaurantContext";
 
 const Map = (props) => {
     const [map, setMap] = useState(null);
@@ -10,17 +9,19 @@ const Map = (props) => {
     const [isDisplayAddNewRestaurantForm, setIsDisplayAddNewRestaurantForm] = useState(false);
     const [positionClickedOnMap, setPositionClickedOnMap] = useState();
 
+    const ctx = useContext(RestaurantContext);
+
     const addNewRestaurant = (data) => {
         props.addNewRestaurant(data);
     }
 
     const getRestaurantsInBounds = () => {
-        const boundsNordEstlat = map.getBounds().getNorthEast().lat();
-        const boundsNordEstlng = map.getBounds().getNorthEast().lng();
-        const boundsSudOuestlat = map.getBounds().getSouthWest().lat();
-        const boundsSudOuestlng = map.getBounds().getSouthWest().lng();
-
-        props.getBounds(boundsNordEstlat, boundsNordEstlng, boundsSudOuestlat, boundsSudOuestlng);
+        ctx.updateBounds({
+            boundsNordEstlat: map.getBounds().getNorthEast().lat(),
+            boundsNordEstlng: map.getBounds().getNorthEast().lng(),
+            boundsSudOuestlat: map.getBounds().getSouthWest().lat(),
+            boundsSudOuestlng: map.getBounds().getSouthWest().lng()
+        });
     }
 
     const getPositionClickedOnMap = (e) => {
@@ -49,16 +50,25 @@ const Map = (props) => {
         height: '400px'
     };
 
-
     const {isLoaded} = useJsApiLoader({
         id: "google-map-script",
         googleMapsApiKey: "AIzaSyC2-n39eQnutXECIDc-9tlNMNFmxzshDtE"
     });
 
     const onLoad = useCallback(function callback(map) {
-        const bounds = new window.google.maps.LatLngBounds();
         setMap(map);
     }, []);
+
+    useEffect(() => {
+       setTimeout(() => {
+           ctx.updateBounds({
+               boundsNordEstlat: map.getBounds().getNorthEast().lat(),
+               boundsNordEstlng: map.getBounds().getNorthEast().lng(),
+               boundsSudOuestlat: map.getBounds().getSouthWest().lat(),
+               boundsSudOuestlng: map.getBounds().getSouthWest().lng()
+           });
+       }, 100);
+    }, [map]);
 
     const onUnmount = useCallback(function callback(map) {
         setMap(null);
@@ -75,7 +85,7 @@ const Map = (props) => {
                 onDragEnd={getRestaurantsInBounds}
                 onClick={getPositionClickedOnMap}
             >
-                {props.restaurantsFiltered.map(
+                {props.restaurantsFiltered !== false && props.restaurantsFiltered.map(
                     (element, index) => <Marker
                         key={index}
                         position=
