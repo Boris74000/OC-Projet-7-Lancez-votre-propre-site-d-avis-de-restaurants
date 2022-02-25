@@ -5,7 +5,7 @@ import classes from './RestaurantsList.module.css';
 const RestaurantsList = (props) => {
     return (
         <ul className={classes.restaurantsList}>
-            {props.restaurantsFiltered.map((elt, index) =>
+            {props.restaurantsFiltered !== false ? props.restaurantsFiltered.map((elt, index) =>
                 <RestaurantsListItems
                     key={index}
                     elt={elt}
@@ -13,7 +13,9 @@ const RestaurantsList = (props) => {
                     lat={elt.lat}
                     lng={elt.lng}
                 />
-            )}
+            ) :
+                <li>No restaurant matches your criteria</li>
+            }
         </ul>
     );
 }

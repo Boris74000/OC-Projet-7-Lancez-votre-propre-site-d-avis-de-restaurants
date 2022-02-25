@@ -1,27 +1,37 @@
-import React, {useState, useCallback, useEffect} from "react";
+import React, {useState, useCallback, useEffect, useContext} from "react";
 import {GoogleMap, Marker, InfoWindow, useJsApiLoader} from "@react-google-maps/api";
 import AddNewRestaurantForm from "../Restaurants/AddNewRestaurantForm/AddNewRestaurantForm";
-
+import {RestaurantContext} from "../../store/RestaurantContext";
 
 const Map = (props) => {
     const [map, setMap] = useState(null);
     const [currentPosition, setCurrentPosition] = useState({});
     const [isDisplayAddNewRestaurantForm, setIsDisplayAddNewRestaurantForm] = useState(false);
     const [positionClickedOnMap, setPositionClickedOnMap] = useState();
-    const [restaurantsWithGooglePlaces, setRestaurantsWithGooglePlaces] = useState([]);
+
+    const ctx = useContext(RestaurantContext);
 
     const addNewRestaurant = (data) => {
         props.addNewRestaurant(data);
-    };
+    }
+
+    const getRestaurantsInBounds = () => {
+        ctx.updateBounds({
+            boundsNordEstlat: map.getBounds().getNorthEast().lat(),
+            boundsNordEstlng: map.getBounds().getNorthEast().lng(),
+            boundsSudOuestlat: map.getBounds().getSouthWest().lat(),
+            boundsSudOuestlng: map.getBounds().getSouthWest().lng()
+        });
+    }
 
     const getPositionClickedOnMap = (e) => {
         setIsDisplayAddNewRestaurantForm(true);
         setPositionClickedOnMap(e);
-    };
+    }
 
     const HideAddNewRestaurantForm = () => {
         setIsDisplayAddNewRestaurantForm(false);
-    };
+    }
 
     const success = position => {
         const currentPosition = {
@@ -42,64 +52,40 @@ const Map = (props) => {
 
     const {isLoaded} = useJsApiLoader({
         id: "google-map-script",
-        googleMapsApiKey: "AIzaSyC2-n39eQnutXECIDc-9tlNMNFmxzshDtE",
-        libraries: ["places"],
+        googleMapsApiKey: "AIzaSyC2-n39eQnutXECIDc-9tlNMNFmxzshDtE"
     });
 
-    const onMapLoad = (map) => {
-        let request = {
-            location: {lng: 6.126262142126459, lat: 45.90202596575145},
-            radius: '2000',
-            type: ['restaurant']
-        };
-
-        let service = new window.google.maps.places.PlacesService(map);
-
-        service.nearbySearch(request, (results, status) => {
-            if (status == window.google.maps.places.PlacesServiceStatus.OK) {
-                console.log(results);
-                setRestaurantsWithGooglePlaces(results);
-            }
-        })
-
+    const onLoad = useCallback(function callback(map) {
         setMap(map);
-    };
+    }, []);
+
+    useEffect(() => {
+       setTimeout(() => {
+           ctx.updateBounds({
+               boundsNordEstlat: map.getBounds().getNorthEast().lat(),
+               boundsNordEstlng: map.getBounds().getNorthEast().lng(),
+               boundsSudOuestlat: map.getBounds().getSouthWest().lat(),
+               boundsSudOuestlng: map.getBounds().getSouthWest().lng()
+           });
+       }, 100);
+    }, [map]);
 
     const onUnmount = useCallback(function callback(map) {
         setMap(null);
     }, []);
-
-    const getRestaurantsInBounds = () => {
-        const boundsNordEstlat = map.getBounds().getNorthEast().lat();
-        const boundsNordEstlng = map.getBounds().getNorthEast().lng();
-        const boundsSudOuestlat = map.getBounds().getSouthWest().lat();
-        const boundsSudOuestlng = map.getBounds().getSouthWest().lng();
-
-        props.getBounds(boundsNordEstlat, boundsNordEstlng, boundsSudOuestlat, boundsSudOuestlng);
-    };
 
     return isLoaded ? (
         <>
             <GoogleMap
                 mapContainerStyle={containerStyle}
                 center={currentPosition}
-                zoom={11}
-                onLoad={(map) => onMapLoad(map)}
+                zoom={10}
+                onLoad={onLoad}
                 onUnmount={onUnmount}
                 onDragEnd={getRestaurantsInBounds}
                 onClick={getPositionClickedOnMap}
             >
-
-                {restaurantsWithGooglePlaces !== [] && restaurantsWithGooglePlaces.map(
-                    (element, index) => <Marker
-                        key={index}
-                        position={element.geometry.location}
-                        icon={{url: "https://maps.google.com/mapfiles/ms/icons/pink-dot.png"}}
-                        name={element.restaurantName}
-                    />
-                )};
-
-                {props.restaurantsFiltered.map(
+                {props.restaurantsFiltered !== false && props.restaurantsFiltered.map(
                     (element, index) => <Marker
                         key={index}
                         position=
@@ -113,7 +99,7 @@ const Map = (props) => {
                         icon={{url: "https://maps.google.com/mapfiles/ms/icons/blue-dot.png"}}
                         name={element.restaurantName}
                     />
-                )};
+                )}
 
                 <Marker
                     position={currentPosition}
@@ -144,7 +130,7 @@ const Map = (props) => {
                     positionClickedOnMap={positionClickedOnMap}
                     addNewRestaurant={addNewRestaurant}
                 />
-            };
+            }
         </>
 
     ) : (

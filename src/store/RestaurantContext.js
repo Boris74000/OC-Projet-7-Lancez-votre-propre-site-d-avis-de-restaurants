@@ -8,6 +8,7 @@ export const RestaurantContextProvider = (props) => {
     const [restaurants, setRestaurants] = useState(restaurantsJson);
     const [minStars, setMinStars] = useState(1);
     const [maxStars, setMaxStars] = useState(5);
+    const [bounds, setBounds] = useState({});
 
     const updateRestaurants = (restaurantsUpdated) => {
         setRestaurants(prevState => [...restaurants, restaurantsUpdated]);
@@ -21,6 +22,9 @@ export const RestaurantContextProvider = (props) => {
         setMaxStars(data);
     };
 
+    const updateBounds = (data) => {
+        setBounds(data);
+    };
 
     return (
         <RestaurantContext.Provider
@@ -29,9 +33,11 @@ export const RestaurantContextProvider = (props) => {
                     restaurants: restaurants,
                     minStars: minStars,
                     maxStars: maxStars,
+                    bounds: bounds,
                     updateRestaurants: updateRestaurants,
                     updateMinStars: updateMinStars,
-                    updateMaxStars: updateMaxStars
+                    updateMaxStars: updateMaxStars,
+                    updateBounds: updateBounds
                 }
             }
         >

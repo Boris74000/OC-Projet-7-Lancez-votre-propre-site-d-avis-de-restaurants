@@ -15,35 +15,31 @@ function App() {
         setRestaurantsFiltered([...restaurantsFiltered, data]);
     };
 
-    const getBounds = (boundsNordEstlat, boundsNordEstlng, boundsSudOuestlat, boundsSudOuestlng) => {
-        filterRestaurantsWithBounds(boundsNordEstlat, boundsNordEstlng, boundsSudOuestlat, boundsSudOuestlng);
-    };
-
-    const filterRestaurantsWithBounds = (boundsNordEstlat, boundsNordEstlng, boundsSudOuestlat, boundsSudOuestlng) => {
-        const filteredRestaurants = ctx.restaurants.filter(restaurant => {
-                if ((restaurant.lat > boundsSudOuestlat) &&
-                    (restaurant.lat < boundsNordEstlat) &&
-                    (restaurant.lng > boundsSudOuestlng) &&
-                    (restaurant.lng < boundsNordEstlng)) {
+    useEffect(() => {
+        const filteredRestaurantsWithBounds = ctx.restaurants.filter(restaurant => {
+                if ((restaurant.lat > ctx.bounds.boundsSudOuestlat) &&
+                    (restaurant.lat < ctx.bounds.boundsNordEstlat) &&
+                    (restaurant.lng > ctx.bounds.boundsSudOuestlng) &&
+                    (restaurant.lng < ctx.bounds.boundsNordEstlng)) {
                     return true;
                 }
             }
         );
-        setRestaurantsFiltered(filteredRestaurants);
-    };
 
-    useEffect(() => {
-        const ratingsRestaurantsFilter = ctx.restaurants.filter(elt => {
+        const filteredRestaurantsWithRatings = filteredRestaurantsWithBounds.filter(elt => {
             const ratingsAverage = elt.ratings.reduce((previousValue, currentValue) => previousValue + currentValue.stars, 0) / elt.ratings.length;
             if (ratingsAverage >= ctx.minStars && ratingsAverage <= ctx.maxStars) {
                 return elt;
             }
         });
-        if (ratingsRestaurantsFilter.length > 0) {
-            setRestaurantsFiltered(ratingsRestaurantsFilter);
-        }
 
-    }, [ctx.minStars, ctx.maxStars]);
+            if (filteredRestaurantsWithRatings.length > 0) {
+                setRestaurantsFiltered(filteredRestaurantsWithRatings);
+            } else {
+                setRestaurantsFiltered(false);
+            }
+
+    }, [ctx.minStars, ctx.maxStars, ctx.bounds]);
 
 
     return (
@@ -57,7 +53,6 @@ function App() {
                     restaurantsFiltered={restaurantsFiltered}
                 />
                 <Map
-                    getBounds={getBounds}
                     restaurantsFiltered={restaurantsFiltered}
                     addNewRestaurant={addNewRestaurant}
                 />
