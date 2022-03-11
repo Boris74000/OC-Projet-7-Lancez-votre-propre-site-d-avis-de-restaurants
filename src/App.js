@@ -12,7 +12,7 @@ function App() {
     const [restaurantsFiltered, setRestaurantsFiltered] = useState(restaurantsJson);
 
     const addNewRestaurant = (data) => {
-        setRestaurantsFiltered([...restaurantsFiltered, data]);
+        setRestaurantsFiltered(prevState => ([...prevState, data]));
     };
 
     useEffect(() => {
@@ -40,7 +40,6 @@ function App() {
             }
 
     }, [ctx.minStars, ctx.maxStars, ctx.bounds]);
-
 
     return (
         <>
