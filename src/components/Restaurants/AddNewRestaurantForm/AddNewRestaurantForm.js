@@ -38,7 +38,7 @@ const AddNewRestaurantForm = (props) => {
             "lng": props.positionClickedOnMap.latLng.lng(),
             "ratings": [
                 {
-                    "stars": state.stars,
+                    "stars": Number(state.stars),
                     "comment": state.comment
                 }
             ]
