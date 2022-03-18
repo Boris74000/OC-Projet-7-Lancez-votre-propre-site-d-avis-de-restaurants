@@ -1,4 +1,5 @@
 import React, {useContext, useState} from 'react';
+import classes from './RestaurantsFilter.module.css';
 import {RestaurantContext} from "../../store/RestaurantContext";
 
 const RestaurantsFilter = () => {
@@ -21,30 +22,35 @@ const RestaurantsFilter = () => {
     }
 
     return (
-        <form onSubmit={formRestaurantsFilter}>
+        <form className={classes.formFilter} onSubmit={formRestaurantsFilter}>
+            <h4>Filter restaurants by ratings</h4>
             <div>
-                <h4>Filter restaurants by ratings</h4>
-                <span>Between </span>
-                <select name="minStars" id="minStars" required onChange={minStarsChangeHandler}>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                </select>
-                <span> And </span>
-                <select name="maxStars" id="maxStars" value={maxStars} required onChange={maxStarsChangeHandler}>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                </select>
-                <span> Stars</span>
+                <div className={classes.selectContainer}>
+                    <span>Between </span>
+                    <select name="minStars" id="minStars" required onChange={minStarsChangeHandler}>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                    <span> And </span>
+                    <select name="maxStars" id="maxStars" value={maxStars} required onChange={maxStarsChangeHandler}>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                    <span> Stars</span>
+                </div>
+                <div>
+                    <button className={[classes.backgroundBtn, 'button', 'button--anthe'].join(' ')} type='submit'>
+                        <span>Search</span>
+                    </button>
+                </div>
             </div>
-            <div>
-                <button type='submit'>Search</button>
-            </div>
+
         </form>
     );
 };

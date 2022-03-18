@@ -1,6 +1,7 @@
 import React, {useState, useCallback, useEffect, useContext} from "react";
 import {GoogleMap, Marker, InfoWindow, useJsApiLoader} from "@react-google-maps/api";
 import AddNewRestaurantForm from "../Restaurants/AddNewRestaurantForm/AddNewRestaurantForm";
+import classes from "./Map.module.css";
 import {RestaurantContext} from "../../store/RestaurantContext";
 
 const Map = (props) => {
@@ -47,8 +48,8 @@ const Map = (props) => {
     }, []);
 
     const containerStyle = {
-        width: '400px',
-        height: '400px'
+        height: "100%",
+        width: "100%"
     };
 
     const {isLoaded} = useJsApiLoader({
@@ -122,7 +123,7 @@ const Map = (props) => {
     }, []);
 
     return isLoaded ? (
-        <>
+        <div className={classes.mapContainer}>
             <GoogleMap
                 mapContainerStyle={containerStyle}
                 center={currentPosition}
@@ -194,7 +195,7 @@ const Map = (props) => {
                 addNewRestaurant={addNewRestaurant}
             />
             }
-        </>
+        </div>
 
     ) : (
         <p>Map can't be load</p>
