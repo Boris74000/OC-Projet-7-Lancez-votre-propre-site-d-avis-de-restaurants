@@ -1,17 +1,17 @@
 [
     {
-        "restaurantName": "La Ciboulette",
-        "address": "10 Rue Vaugelas - Cour du Pré Carré, 74000 Annecy",
-        "lat": 45.90202596575145,
-        "lng": 6.126262142126459,
+        "restaurantName": "Adelita",
+        "address": "22 Clos Domenjoud, 74320 Sévrier",
+        "lat": 45.86278179810282,
+        "lng": 6.14104635369681,
         "ratings": [
             {
                 "stars": 4,
-                "comment": "Un excellent restaurant, j'y reviendrai ! Par contre il vaut mieux aimer la viande."
+                "comment": "Un très bon restaurant pour nous faire voyager, avec plein de saveurs et de goûts et le tout fait maison..."
             },
             {
                 "stars": 5,
-                "comment": "Tout simplement mon restaurant préféré !"
+                "comment": "De la vrai cuisine mexicaine. Très bon ! Personnel très gentil ! A refaire"
             }
         ]
     },
