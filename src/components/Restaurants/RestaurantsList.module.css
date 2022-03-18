@@ -1,4 +1,6 @@
 .restaurantsList {
-    margin-right: 2rem;
-    padding: 0 2rem;
+    padding: 2rem;
+    flex-basis: 40%;
+    height: calc(100vh - 336px);
+    overflow: scroll;
 }

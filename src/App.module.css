@@ -1,9 +1,14 @@
 .mapAndListContainer, section {
     display: flex;
     justify-content: center;
-    margin-top: 2rem;
+    /*margin-top: 2rem;*/
 }
 
 .list {
     padding-right: 1rem;
+}
+
+.filterSection {
+    background-color: var(--color-secondary);
+    padding-bottom: 1.33rem;
 }

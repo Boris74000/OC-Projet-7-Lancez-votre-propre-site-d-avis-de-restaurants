@@ -1,0 +1,29 @@
+.formFilter {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.formFilter > div {
+    display: flex;
+}
+
+.selectContainer {
+    display: flex;
+    align-items: center;
+    margin-right: 1rem;
+}
+
+.selectContainer select {
+    padding: 0.2rem;
+    margin: 0 0.3rem;
+    border-radius: 10px;
+}
+
+.backgroundBtn::before {
+    background-color: var(--color-primary);
+}
+
+.backgroundBtn:hover::before {
+    background-color: var(--color-primary);
+}

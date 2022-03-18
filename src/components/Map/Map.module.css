@@ -1,0 +1,5 @@
+.mapContainer {
+    height: calc(100vh - 272px);
+    flex-basis: 60%;
+    position: relative;
+}

@@ -1,0 +1,26 @@
+.addReviewForm select {
+    width: 200px;
+}
+
+.addReviewForm h3 {
+    position: relative;
+}
+
+.addReviewForm h3:before {
+    content: "";
+    position: absolute;
+    top: -6px;
+    left: 0;
+    height: 2px;
+    width: 78px;
+    background: black;
+    display: block;
+}
+
+.backgroundBtn::before {
+    background-color: var(--color-secondary);
+}
+
+.backgroundBtn:hover::before {
+    background-color: var(--color-secondary);
+}
