@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 
 import classes from "./RestaurantsListItems.module.css";
 import IconPlus from "./../../../assets/images/add_circle_icon.svg";
@@ -9,13 +9,17 @@ import AddReviewForm from "../AddReviewForm";
 const RestaurantsListItems = (props) => {
     const [isCommentShowed, setIsCommentShowed] = useState(false);
     const [newComment, setNewComment] = useState([]);
+    const [ratingsAverage, setRatingsAverage] = useState([]);
 
     const displayComment = () => {
         setIsCommentShowed(prevState => !prevState);
     }
-    // console.log(props.elt.ratings)
-    // console.log(props.elt)
-    const ratingsAverage = props.elt.ratings.reduce((previousValue, currentValue) => previousValue + currentValue.stars, 0) / props.elt.ratings.length;
+
+    useEffect(()=> {
+        setTimeout(()=> {
+        setRatingsAverage(props.elt.ratings.reduce((previousValue, currentValue) => previousValue + currentValue.stars, 0) / props.elt.ratings.length);
+        }, 200);
+    });
 
     const addReviewHandler = (reviewFormData) => {
         setNewComment(prevState => {
