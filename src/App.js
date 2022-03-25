@@ -6,22 +6,16 @@ import {RestaurantContext} from "./store/RestaurantContext";
 import classes from "./App.module.css";
 import RestaurantsFilter from "./components/Restaurants/RestaurantsFilter";
 import Header from "./components/Layout/Header";
-import restaurantsJson from "./assets/restaurants.json";
 
 function App() {
     const ctx = useContext(RestaurantContext);
-    const [restaurantsFiltered, setRestaurantsFiltered] = useState(restaurantsJson);
+    const [restaurantsFiltered, setRestaurantsFiltered] = useState(ctx.restaurants);
 
     const addNewRestaurant = (data) => {
         setRestaurantsFiltered(prevState => ([...prevState, data]));
-        setTimeout(() => {
-            setRestaurantsFiltered(prevState => ([...prevState, data]));
-        }, 300);
     };
 
     useEffect(() => {
-        // console.log(restaurantsFiltered);
-        // console.log(ctx.restaurants);
         const filteredRestaurantsWithBounds = ctx.restaurants.filter(restaurant => {
                 if ((restaurant.lat > ctx.bounds.boundsSudOuestlat) &&
                     (restaurant.lat < ctx.bounds.boundsNordEstlat) &&
@@ -46,9 +40,6 @@ function App() {
             }
 
     }, [ctx.minStars, ctx.maxStars, ctx.bounds]);
-
-    // console.log(restaurantsFiltered);
-    // console.log(ctx.restaurants);
 
     return (
         <>
