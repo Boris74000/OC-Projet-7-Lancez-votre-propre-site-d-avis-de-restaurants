@@ -130,7 +130,7 @@ const Map = (props) => {
                 zoom={11}
                 onLoad={(map) => onMapLoad(map)}
                 onUnmount={onUnmount}
-                onDragEnd={getRestaurantsInBounds}
+                onBoundsChanged={getRestaurantsInBounds}
                 onClick={getPositionClickedOnMap}
             >
                 {restaurantsWithGooglePlaces !== [] && restaurantsWithGooglePlaces.map(
