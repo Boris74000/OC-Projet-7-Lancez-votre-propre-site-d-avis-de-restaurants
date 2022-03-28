@@ -52,7 +52,7 @@ const Map = (props) => {
 
     const {isLoaded} = useJsApiLoader({
         id: "google-map-script",
-        googleMapsApiKey: "AIzaSyC2-n39eQnutXECIDc-9tlNMNFmxzshDtE"
+        googleMapsApiKey: ""
     });
 
     const onLoad = useCallback(function callback(map) {
