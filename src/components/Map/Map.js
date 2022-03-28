@@ -1,6 +1,7 @@
 import React, {useState, useCallback, useEffect, useContext} from "react";
 import {GoogleMap, Marker, InfoWindow, useJsApiLoader} from "@react-google-maps/api";
 import AddNewRestaurantForm from "../Restaurants/AddNewRestaurantForm/AddNewRestaurantForm";
+import classes from "./Map.module.css";
 import {RestaurantContext} from "../../store/RestaurantContext";
 
 const Map = (props) => {
@@ -8,6 +9,7 @@ const Map = (props) => {
     const [currentPosition, setCurrentPosition] = useState({});
     const [isDisplayAddNewRestaurantForm, setIsDisplayAddNewRestaurantForm] = useState(false);
     const [positionClickedOnMap, setPositionClickedOnMap] = useState();
+    const [restaurantsWithGooglePlaces, setRestaurantsWithGooglePlaces] = useState([]);
 
     const ctx = useContext(RestaurantContext);
 
@@ -46,28 +48,74 @@ const Map = (props) => {
     }, []);
 
     const containerStyle = {
-        width: '400px',
-        height: '400px'
+        height: "100%",
+        width: "100%"
     };
 
     const {isLoaded} = useJsApiLoader({
         id: "google-map-script",
-        googleMapsApiKey: ""
+        googleMapsApiKey: "",
+        libraries: ["places"]
     });
 
-    const onLoad = useCallback(function callback(map) {
+    const onMapLoad = (map) => {
+        let service = new window.google.maps.places.PlacesService(map);
+
+        let request = {
+            location: {lng: 6.126262142126459, lat: 45.90202596575145},
+            radius: '40',
+            type: ['restaurant']
+        };
+
+        service.nearbySearch(request, (results, status) => {
+            if (status == window.google.maps.places.PlacesServiceStatus.OK) {
+                for (const result of results) {
+
+                    let request2 = {
+                        placeId: result.place_id,
+                        fields: ['reviews']
+                    }
+
+                    const ratings = [];
+                    service.getDetails(request2, function (place, status) {
+                        if (status == window.google.maps.places.PlacesServiceStatus.OK) {
+                            for (const placeElement of place.reviews) {
+                                ratings.push(
+                                    {
+                                        stars: placeElement.rating,
+                                        comment: placeElement.text
+                                    }
+                                )
+                            }
+                        }
+                    });
+
+                    let newRestaurantGooglePlaces = {
+                        "restaurantName": result.name,
+                        "address": result.vicinity,
+                        "lat": result.geometry.location.lat(),
+                        "lng": result.geometry.location.lng(),
+                        "ratings": ratings
+                    };
+
+                    ctx.updateRestaurants(newRestaurantGooglePlaces);
+                    addNewRestaurant(newRestaurantGooglePlaces);
+                }
+
+            }
+        });
         setMap(map);
-    }, []);
+    };
 
     useEffect(() => {
-       setTimeout(() => {
-           ctx.updateBounds({
-               boundsNordEstlat: map.getBounds().getNorthEast().lat(),
-               boundsNordEstlng: map.getBounds().getNorthEast().lng(),
-               boundsSudOuestlat: map.getBounds().getSouthWest().lat(),
-               boundsSudOuestlng: map.getBounds().getSouthWest().lng()
-           });
-       }, 100);
+        setTimeout(() => {
+            ctx.updateBounds({
+                boundsNordEstlat: map.getBounds().getNorthEast().lat(),
+                boundsNordEstlng: map.getBounds().getNorthEast().lng(),
+                boundsSudOuestlat: map.getBounds().getSouthWest().lat(),
+                boundsSudOuestlng: map.getBounds().getSouthWest().lng()
+            });
+        }, 100);
     }, [map]);
 
     const onUnmount = useCallback(function callback(map) {
@@ -75,16 +123,32 @@ const Map = (props) => {
     }, []);
 
     return isLoaded ? (
-        <>
+        <div className={classes.mapContainer}>
             <GoogleMap
                 mapContainerStyle={containerStyle}
                 center={currentPosition}
-                zoom={10}
-                onLoad={onLoad}
+                zoom={11}
+                onLoad={(map) => onMapLoad(map)}
                 onUnmount={onUnmount}
-                onDragEnd={getRestaurantsInBounds}
+                onBoundsChanged={getRestaurantsInBounds}
                 onClick={getPositionClickedOnMap}
             >
+                {restaurantsWithGooglePlaces !== [] && restaurantsWithGooglePlaces.map(
+                    (element, index) => <Marker
+                        key={index}
+                        position=
+                            {
+                                {
+                                    lat: element.lat,
+                                    lng: element.lng
+                                }
+                            }
+                        icon={{url: "https://maps.google.com/mapfiles/ms/icons/pink-dot.png"}}
+                        name={element.restaurantName}
+                    />
+                )};
+
+
                 {props.restaurantsFiltered !== false && props.restaurantsFiltered.map(
                     (element, index) => <Marker
                         key={index}
@@ -125,13 +189,13 @@ const Map = (props) => {
             </GoogleMap>
 
             {isDisplayAddNewRestaurantForm &&
-                <AddNewRestaurantForm
-                    onHideAddNewRestaurantForm={HideAddNewRestaurantForm}
-                    positionClickedOnMap={positionClickedOnMap}
-                    addNewRestaurant={addNewRestaurant}
-                />
+            <AddNewRestaurantForm
+                onHideAddNewRestaurantForm={HideAddNewRestaurantForm}
+                positionClickedOnMap={positionClickedOnMap}
+                addNewRestaurant={addNewRestaurant}
+            />
             }
-        </>
+        </div>
 
     ) : (
         <p>Map can't be load</p>

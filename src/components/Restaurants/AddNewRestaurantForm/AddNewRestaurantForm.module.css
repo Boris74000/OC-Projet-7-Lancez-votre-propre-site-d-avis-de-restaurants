@@ -19,3 +19,29 @@
     padding: 1rem;
     list-style: none;
 }
+
+.cartModal > div {
+    position: relative;
+}
+
+.cartModal img {
+    position: absolute;
+    top: -22px;
+    right: 0;
+}
+
+.addNewRestaurantForm select {
+    height: 30px;
+    width: 200px;
+    border-color: #dbdad5;
+}
+
+.backgroundBtn::before {
+    background-color: var(--color-secondary);
+}
+
+.backgroundBtn:hover::before {
+    background-color: var(--color-secondary);
+}
+
+

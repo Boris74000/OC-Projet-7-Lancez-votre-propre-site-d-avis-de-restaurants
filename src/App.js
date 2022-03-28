@@ -5,14 +5,14 @@ import RestaurantsList from "./components/Restaurants/RestaurantsList";
 import {RestaurantContext} from "./store/RestaurantContext";
 import classes from "./App.module.css";
 import RestaurantsFilter from "./components/Restaurants/RestaurantsFilter";
-import restaurantsJson from "./assets/restaurants.json";
+import Header from "./components/Layout/Header";
 
 function App() {
     const ctx = useContext(RestaurantContext);
-    const [restaurantsFiltered, setRestaurantsFiltered] = useState(restaurantsJson);
+    const [restaurantsFiltered, setRestaurantsFiltered] = useState(ctx.restaurants);
 
     const addNewRestaurant = (data) => {
-        setRestaurantsFiltered([...restaurantsFiltered, data]);
+        setRestaurantsFiltered(prevState => ([...prevState, data]));
     };
 
     useEffect(() => {
@@ -41,10 +41,10 @@ function App() {
 
     }, [ctx.minStars, ctx.maxStars, ctx.bounds]);
 
-
     return (
         <>
-            <section>
+            <Header/>
+            <section className={classes.filterSection}>
                 <RestaurantsFilter/>
             </section>
             <section className={classes.mapAndListContainer}>

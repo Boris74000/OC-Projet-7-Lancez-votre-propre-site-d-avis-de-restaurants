@@ -2,5 +2,22 @@
     border-bottom: 1px solid #aea2a2;
     margin-bottom: 1rem;
     padding-bottom: 0.5rem;
-    cursor: pointer;
+}
+
+.listItem > div {
+    display: flex;
+}
+
+.listItem > div:first-child {
+    justify-content: space-between;
+    align-items: center;
+}
+
+.listItem > div:last-child {
+    flex-direction: column;
+    padding: 0 1rem;
+}
+
+.listItem h2 {
+    flex-basis: 35%;
 }

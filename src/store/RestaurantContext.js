@@ -11,7 +11,7 @@ export const RestaurantContextProvider = (props) => {
     const [bounds, setBounds] = useState({});
 
     const updateRestaurants = (restaurantsUpdated) => {
-        setRestaurants(prevState => [...restaurants, restaurantsUpdated]);
+        setRestaurants(prevState => [...prevState, restaurantsUpdated]);
     };
 
     const updateMinStars = (data) => {
