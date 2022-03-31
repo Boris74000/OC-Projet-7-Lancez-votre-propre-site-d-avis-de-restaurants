@@ -6,7 +6,7 @@ const AddReviewForm = (props) => {
     const [newComment, setNewComment] = useState("");
 
     const newStarChangeHandler = (e) => {
-        setNewStar(e.target.value);
+        setNewStar(Number(e.target.value));
     }
 
     const newCommentChangeHandler = (e) => {
@@ -20,16 +20,17 @@ const AddReviewForm = (props) => {
             comment: newComment
         }
         props.addReviewHandler(newCommentWithStar);
-
+        document.getElementById("rating-select").selectedIndex = 0;
+        setNewComment("");
     }
 
     return (
         <form className={classes.addReviewForm} onSubmit={submitHandler}>
-            <h3>Add your review</h3>
+            <h3>Ajoutez votre commentaire</h3>
             <div className="formGroup">
-                <label htmlFor="rating-select">Choose a rating:</label>
+                <label htmlFor="rating-select">Choisissez une note:</label>
                 <select name="rating-select" id="rating-select" onChange={newStarChangeHandler}>
-                    <option value="">Choose between 1 and 5</option>
+                    <option value="">Choisissez entre 1 et 5</option>
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -38,9 +39,9 @@ const AddReviewForm = (props) => {
                 </select>
             </div>
             <div className="formGroup">
-                <label htmlFor="comment-area">Add a comment: </label>
+                <label htmlFor="comment-area">Ajoutez un commentaire: </label>
                 <textarea
-                    placeholder="Share your experience: how was your meal, staff, atmosphere ?"
+                    placeholder="Partagez votre expérience, comment était le repas, l'équipe, l'atmosphère ?"
                     id="comment-area"
                     name="comment-area"
                     rows="5"
@@ -51,7 +52,7 @@ const AddReviewForm = (props) => {
             </div>
             <div>
                 <button className={[classes.backgroundBtn, 'button', 'button--anthe'].join(' ')} type="submit">
-                    <span>Add</span>
+                    <span>Ajouter</span>
                 </button>
             </div>
         </form>

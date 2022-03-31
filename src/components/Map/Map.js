@@ -59,51 +59,53 @@ const Map = (props) => {
     });
 
     const onMapLoad = (map) => {
-        let service = new window.google.maps.places.PlacesService(map);
+        setTimeout(() => {
+            let service = new window.google.maps.places.PlacesService(map);
 
-        let request = {
-            location: {lng: 6.126262142126459, lat: 45.90202596575145},
-            radius: '40',
-            type: ['restaurant']
-        };
+            let request = {
+                location: {lng: 6.126262142126459, lat: 45.90202596575145},
+                radius: '40',
+                type: ['restaurant']
+            };
 
-        service.nearbySearch(request, (results, status) => {
-            if (status == window.google.maps.places.PlacesServiceStatus.OK) {
-                for (const result of results) {
+            service.nearbySearch(request, (results, status) => {
+                if (status == window.google.maps.places.PlacesServiceStatus.OK) {
+                    for (const result of results) {
 
-                    let request2 = {
-                        placeId: result.place_id,
-                        fields: ['reviews']
+                        let request2 = {
+                            placeId: result.place_id,
+                            fields: ['reviews']
+                        }
+
+                        const ratings = [];
+                        service.getDetails(request2, function (place, status) {
+                            if (status == window.google.maps.places.PlacesServiceStatus.OK) {
+                                for (const placeElement of place.reviews) {
+                                    ratings.push(
+                                        {
+                                            stars: placeElement.rating,
+                                            comment: placeElement.text
+                                        }
+                                    )
+                                }
+                            }
+                        });
+
+                        let newRestaurantGooglePlaces = {
+                            "restaurantName": result.name,
+                            "address": result.vicinity,
+                            "lat": result.geometry.location.lat(),
+                            "lng": result.geometry.location.lng(),
+                            "ratings": ratings
+                        };
+
+                        ctx.updateRestaurants(newRestaurantGooglePlaces);
                     }
 
-                    const ratings = [];
-                    service.getDetails(request2, function (place, status) {
-                        if (status == window.google.maps.places.PlacesServiceStatus.OK) {
-                            for (const placeElement of place.reviews) {
-                                ratings.push(
-                                    {
-                                        stars: placeElement.rating,
-                                        comment: placeElement.text
-                                    }
-                                )
-                            }
-                        }
-                    });
-
-                    let newRestaurantGooglePlaces = {
-                        "restaurantName": result.name,
-                        "address": result.vicinity,
-                        "lat": result.geometry.location.lat(),
-                        "lng": result.geometry.location.lng(),
-                        "ratings": ratings
-                    };
-
-                    ctx.updateRestaurants(newRestaurantGooglePlaces);
-                    addNewRestaurant(newRestaurantGooglePlaces);
                 }
-
-            }
+            });
         });
+
         setMap(map);
     };
 
@@ -181,7 +183,7 @@ const Map = (props) => {
                             }
                         position={currentPosition}>
                         <div>
-                            <p>Your current position</p>
+                            <p>Votre position actuelle</p>
                         </div>
                     </InfoWindow>
                 </Marker>

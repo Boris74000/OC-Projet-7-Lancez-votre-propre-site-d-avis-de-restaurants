@@ -23,10 +23,10 @@ const RestaurantsFilter = () => {
 
     return (
         <form className={classes.formFilter} onSubmit={formRestaurantsFilter}>
-            <h4>Filter restaurants by ratings</h4>
+            <h4>Filtrer les restaurants par notes</h4>
             <div>
                 <div className={classes.selectContainer}>
-                    <span>Between </span>
+                    <span>Entre </span>
                     <select name="minStars" id="minStars" required onChange={minStarsChangeHandler}>
                         <option value="1">1</option>
                         <option value="2">2</option>
@@ -34,7 +34,7 @@ const RestaurantsFilter = () => {
                         <option value="4">4</option>
                         <option value="5">5</option>
                     </select>
-                    <span> And </span>
+                    <span> Et </span>
                     <select name="maxStars" id="maxStars" value={maxStars} required onChange={maxStarsChangeHandler}>
                         <option value="1">1</option>
                         <option value="2">2</option>
@@ -42,11 +42,11 @@ const RestaurantsFilter = () => {
                         <option value="4">4</option>
                         <option value="5">5</option>
                     </select>
-                    <span> Stars</span>
+                    <span> Étoiles</span>
                 </div>
                 <div>
                     <button className={[classes.backgroundBtn, 'button', 'button--anthe'].join(' ')} type='submit'>
-                        <span>Search</span>
+                        <span>Rechercher</span>
                     </button>
                 </div>
             </div>

@@ -45,7 +45,6 @@ const AddNewRestaurantForm = (props) => {
             ]
         };
         ctx.updateRestaurants(newRestaurant);
-        props.addNewRestaurant(newRestaurant);
         props.onHideAddNewRestaurantForm();
     };
 
@@ -54,11 +53,11 @@ const AddNewRestaurantForm = (props) => {
             <div className={classes.overlay} onClick={props.onHideAddNewRestaurantForm}></div>
             <div className={classes.cartModal}>
                 <div>
-                    <img onClick={props.onHideAddNewRestaurantForm} src={IconClose} alt="close icon"/>
-                    <h3>Add your restaurant</h3>
+                    <img className="icon" onClick={props.onHideAddNewRestaurantForm} src={IconClose} alt="close icon"/>
+                    <h3>Ajoutez votre restaurant</h3>
                     <form onSubmit={submitHandler}>
                         <div className="formGroup">
-                            <label htmlFor="restaurantName">Enter your restaurant's name: </label>
+                            <label htmlFor="restaurantName">Entrez le nom de votre restaurant: </label>
                             <input
                                 type="text"
                                 name="restaurantName"
@@ -69,7 +68,7 @@ const AddNewRestaurantForm = (props) => {
                             />
                         </div>
                         <div className="formGroup">
-                            <label htmlFor="restaurantAddress">Enter your restaurant's address: </label>
+                            <label htmlFor="restaurantAddress">Entrez l'adresse du restaurant: </label>
                             <input
                                 type="address"
                                 name="restaurantAddress"
@@ -80,14 +79,14 @@ const AddNewRestaurantForm = (props) => {
                             />
                         </div>
                         <div className="formGroup">
-                            <label htmlFor="stars">Choose a rating:</label>
+                            <label htmlFor="stars">Choisissez une note:</label>
                             <select
                                 name="stars"
                                 id="stars"
                                 value={state.stars}
                                 onChange={(e) => dispatch({type: "stars", payload: e.target.value})}
                             >
-                                <option value="">--Please choose a rating--</option>
+                                <option value="">--Choisissez une note--</option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -96,10 +95,11 @@ const AddNewRestaurantForm = (props) => {
                             </select>
                         </div>
                         <div className="formGroup">
-                            <label htmlFor="comment">Add a comment: </label>
+                            <label htmlFor="comment">Ajoutez un commentaire: </label>
                             <textarea
                                 id="comment"
                                 name="comment"
+                                placeholder="Partagez votre expérience, comment était le repas, l'équipe, l'atmosphère ?"
                                 rows="5"
                                 cols="33"
                                 value={state.comment}
@@ -108,7 +108,7 @@ const AddNewRestaurantForm = (props) => {
                         </div>
                         <div>
                             <button className={[classes.backgroundBtn, 'button', 'button--anthe'].join(' ')} type="submit">
-                                <span>Add !</span>
+                                <span>Ajouter !</span>
                             </button>
                         </div>
                     </form>
