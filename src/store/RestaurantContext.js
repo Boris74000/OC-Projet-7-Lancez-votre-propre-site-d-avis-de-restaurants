@@ -14,6 +14,20 @@ export const RestaurantContextProvider = (props) => {
         setRestaurants(prevState => [...prevState, restaurantsUpdated]);
     };
 
+    const updateRestaurantReview = (restaurantName, review) => {
+        if (restaurants.find(restaurant => restaurant.restaurantName === restaurantName)) {
+
+            let updatedRestaurantReviews = restaurants.map(restaurant => {
+                if (restaurant.restaurantName === restaurantName) {
+                    return { ...restaurant, ratings: review }; //gets everything that was already in item, and updates "done"
+                }
+                return restaurant; // else return unmodified item
+            });
+
+            setRestaurants(updatedRestaurantReviews); // set state to new object with updated list
+        }
+    };
+
     const updateMinStars = (data) => {
         setMinStars(data);
     };
@@ -35,6 +49,7 @@ export const RestaurantContextProvider = (props) => {
                     maxStars: maxStars,
                     bounds: bounds,
                     updateRestaurants: updateRestaurants,
+                    updateRestaurantReview: updateRestaurantReview,
                     updateMinStars: updateMinStars,
                     updateMaxStars: updateMaxStars,
                     updateBounds: updateBounds
