@@ -4,3 +4,7 @@
     height: calc(100vh - 336px);
     overflow: scroll;
 }
+
+.restaurantsList::-webkit-scrollbar {
+    display: none;
+}

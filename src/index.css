@@ -123,6 +123,10 @@ select {
     border-color: #dbdad5;
 }
 
+.icon {
+    cursor: pointer;
+}
+
 
 
 
