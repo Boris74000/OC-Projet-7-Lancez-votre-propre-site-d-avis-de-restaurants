@@ -1,15 +1,18 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 
 import classes from "./RestaurantsListItems.module.css";
 import IconPlus from "./../../../assets/images/add_circle_icon.svg";
 import IconMinus from "./../../../assets/images/remove_circle_icon.svg";
 import RestaurantsListItemsComments from "./RestaurantsListItemsComments";
 import AddReviewForm from "../AddReviewForm";
+import {RestaurantContext} from "../../../store/RestaurantContext";
 
 const RestaurantsListItems = (props) => {
     const [isCommentShowed, setIsCommentShowed] = useState(false);
     const [newComment, setNewComment] = useState([]);
     const [ratingsAverage, setRatingsAverage] = useState([]);
+
+    const ctx = useContext(RestaurantContext);
 
     const displayComment = () => {
         setIsCommentShowed(prevState => !prevState);
@@ -17,16 +20,21 @@ const RestaurantsListItems = (props) => {
 
     useEffect(()=> {
         setTimeout(()=> {
-        setRatingsAverage(props.elt.ratings.reduce((previousValue, currentValue) => previousValue + currentValue.stars, 0) / props.elt.ratings.length);
+
+        let round = (props.elt.ratings.reduce((previousValue, currentValue) => previousValue + currentValue.stars, 0) / props.elt.ratings.length);
+
+        if (round % 1 !== 0) {
+            round = round.toFixed(1);
+        }
+
+        setRatingsAverage(round);
         }, 200);
     });
 
     const addReviewHandler = (reviewFormData) => {
-        setNewComment(prevState => {
-            const updatedNewComment = [...prevState];
-            updatedNewComment.push(reviewFormData);
-            return updatedNewComment;
-        })
+
+        const newReview = [...props.elt.ratings, reviewFormData];
+        ctx.updateRestaurantReview(props.elt.restaurantName, newReview);
     }
 
     return (
@@ -39,9 +47,9 @@ const RestaurantsListItems = (props) => {
                 </p>
                 {/*<button onClick={displayComment}>Show comments</button>*/}
                 {isCommentShowed ?
-                    <img onClick={displayComment} src={IconMinus} alt="Minus icon"/>
+                    <img className="icon" onClick={displayComment} src={IconMinus} alt="Minus icon"/>
                     :
-                    <img onClick={displayComment} src={IconPlus} alt="Plus icon"/>
+                    <img className="icon" onClick={displayComment} src={IconPlus} alt="Plus icon"/>
                 }
 
             </div>
