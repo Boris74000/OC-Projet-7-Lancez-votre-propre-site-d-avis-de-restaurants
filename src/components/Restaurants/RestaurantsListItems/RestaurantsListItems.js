@@ -18,16 +18,16 @@ const RestaurantsListItems = (props) => {
         setIsCommentShowed(prevState => !prevState);
     }
 
-    useEffect(()=> {
-        setTimeout(()=> {
+    useEffect(() => {
+        setTimeout(() => {
 
-        let round = (props.elt.ratings.reduce((previousValue, currentValue) => previousValue + currentValue.stars, 0) / props.elt.ratings.length);
+            let round = (props.elt.ratings.reduce((previousValue, currentValue) => previousValue + currentValue.stars, 0) / props.elt.ratings.length);
 
-        if (round % 1 !== 0) {
-            round = round.toFixed(1);
-        }
+            if (round % 1 !== 0) {
+                round = round.toFixed(1);
+            }
 
-        setRatingsAverage(round);
+            setRatingsAverage(round);
         }, 200);
     });
 
@@ -54,40 +54,40 @@ const RestaurantsListItems = (props) => {
 
             </div>
 
-            <div>
-                {isCommentShowed === true &&
+            <div className={[classes.reviewContainer, isCommentShowed ? classes.show : classes.hide].join(' ')}>
+
+                {/*{isCommentShowed === true &&*/}
                 <img
                     src={`https://maps.googleapis.com/maps/api/streetview?size=640x320&location=${props.lat},${props.lng}&heading=220.78&key=AIzaSyC2-n39eQnutXECIDc-9tlNMNFmxzshDtE&amp`}
                     alt="restaurant picture"/>
-                }
+                {/*}*/}
 
-                {isCommentShowed === true &&
-                props.elt.ratings.map((elt, index) =>
+                {/*{isCommentShowed === true &&*/}
+                {props.elt.ratings.map((elt, index) =>
                     <RestaurantsListItemsComments
                         key={index}
                         comment={elt.comment}
                         stars={elt.stars}
                     />
-                )
-                }
+                )}
+                {/*}*/}
 
-                {isCommentShowed === true && newComment.length !== 0 &&
-                newComment.map((elt, index) =>
+                {/*{isCommentShowed === true && newComment.length !== 0 &&*/}
+                {newComment.map((elt, index) =>
                     <RestaurantsListItemsComments
                         key={index}
                         comment={elt.comment}
                         stars={elt.stars}
                     />
-                )
-                }
+                )}
+                {/*}*/}
 
-                {isCommentShowed === true &&
+                {/*{isCommentShowed === true &&*/}
                 <AddReviewForm
                     addReviewHandler={addReviewHandler}
                 />
-                }
+                {/*}*/}
             </div>
-
 
         </li>
     );

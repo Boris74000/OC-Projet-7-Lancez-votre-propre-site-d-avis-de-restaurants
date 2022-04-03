@@ -14,7 +14,7 @@ const RestaurantsList = (props) => {
                     lng={elt.lng}
                 />
             ) :
-                <li>No restaurant matches your criteria</li>
+                <li>Aucun restaurant ne correspond à vos critère</li>
             }
         </ul>
     );
