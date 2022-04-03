@@ -1,7 +1,7 @@
 .restaurantsList {
     padding: 2rem;
     flex-basis: 40%;
-    height: calc(100vh - 336px);
+    height: calc(100vh - 285px);
     overflow: scroll;
 }
 

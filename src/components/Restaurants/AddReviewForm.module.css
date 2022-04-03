@@ -18,9 +18,9 @@
 }
 
 .backgroundBtn::before {
-    background-color: var(--color-secondary);
+    background-color: var(--color-primary);
 }
 
 .backgroundBtn:hover::before {
-    background-color: var(--color-secondary);
+    background-color: var(--color-primary);
 }

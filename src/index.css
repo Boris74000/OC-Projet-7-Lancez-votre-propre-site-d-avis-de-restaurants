@@ -19,8 +19,7 @@ ul {
 }
 
 :root {
-    --color-primary: #EEE6D8;
-    --color-secondary: #B2784A;
+    --color-primary: #34E0A1;
 }
 
 @font-face {
@@ -126,6 +125,15 @@ select {
 .icon {
     cursor: pointer;
 }
+
+.gm-style .gm-style-iw-c {
+    padding: 0;
+}
+
+.gm-style-iw-d {
+    overflow: auto !important;
+}
+
 
 
 

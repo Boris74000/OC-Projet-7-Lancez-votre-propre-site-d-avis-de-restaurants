@@ -1,5 +1,15 @@
 .mapContainer {
-    height: calc(100vh - 272px);
+    height: calc(100vh - 219px);
     flex-basis: 60%;
     position: relative;
+}
+
+.infoWindow img {
+    object-fit: contain;
+    height: auto;
+    width: 200px;
+}
+
+.infoWindow p {
+    padding-left: 0.5rem;
 }

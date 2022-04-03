@@ -4,20 +4,33 @@
     padding-bottom: 0.5rem;
 }
 
-.listItem > div {
-    display: flex;
-}
-
 .listItem > div:first-child {
+    display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.listItem > div:last-child {
-    flex-direction: column;
-    padding: 0 1rem;
-}
-
 .listItem h2 {
     flex-basis: 35%;
+}
+
+.reviewContainer {
+    flex-direction: column;
+    padding: 0 1rem;
+    overflow: hidden;
+}
+
+.reviewContainer img {
+    width: 100%;
+}
+
+.show {
+    transition: max-height 500ms ease-in-out;
+    height: auto;
+    max-height: 1500px;
+}
+
+.hide {
+    max-height: 0;
+    transition: max-height 400ms ease-in-out;
 }

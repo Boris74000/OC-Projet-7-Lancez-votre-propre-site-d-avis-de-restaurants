@@ -1,11 +1,14 @@
 .formFilter {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    align-items: baseline;
 }
 
 .formFilter > div {
     display: flex;
+}
+
+.formFilter h4 {
+    margin: 0 1rem 0 0;
 }
 
 .selectContainer {
@@ -26,4 +29,12 @@
 
 .backgroundBtn:hover::before {
     background-color: var(--color-primary);
+}
+
+.select:after {
+    border-bottom: 2px solid var(--color-primary) !important;
+}
+
+.inputLabel {
+    display: none;
 }
