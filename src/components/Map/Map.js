@@ -8,8 +8,9 @@ const Map = (props) => {
     const [map, setMap] = useState(null);
     const [currentPosition, setCurrentPosition] = useState({});
     const [isDisplayAddNewRestaurantForm, setIsDisplayAddNewRestaurantForm] = useState(false);
+    const [isDisplayInfoWindowMarker, setIsDisplayInfoWindowMarker] = useState(false);
+    const [openInfoWindowMarkerId, setOpenInfoWindowMarkerId] = useState();
     const [positionClickedOnMap, setPositionClickedOnMap] = useState();
-    const [restaurantsWithGooglePlaces, setRestaurantsWithGooglePlaces] = useState([]);
 
     const ctx = useContext(RestaurantContext);
 
@@ -54,7 +55,7 @@ const Map = (props) => {
 
     const {isLoaded} = useJsApiLoader({
         id: "google-map-script",
-        googleMapsApiKey: "",
+        googleMapsApiKey: "AIzaSyC2-n39eQnutXECIDc-9tlNMNFmxzshDtE",
         libraries: ["places"]
     });
 
@@ -124,6 +125,15 @@ const Map = (props) => {
         setMap(null);
     }, []);
 
+    const handleToggleOpen = (markerId) => {
+        setIsDisplayInfoWindowMarker(true);
+        setOpenInfoWindowMarkerId(markerId);
+    }
+
+    const hideInfoWindow = () => {
+        setIsDisplayInfoWindowMarker(false);
+    }
+
     return isLoaded ? (
         <div className={classes.mapContainer}>
             <GoogleMap
@@ -135,36 +145,58 @@ const Map = (props) => {
                 onBoundsChanged={getRestaurantsInBounds}
                 onClick={getPositionClickedOnMap}
             >
-                {restaurantsWithGooglePlaces !== [] && restaurantsWithGooglePlaces.map(
-                    (element, index) => <Marker
-                        key={index}
-                        position=
-                            {
-                                {
-                                    lat: element.lat,
-                                    lng: element.lng
-                                }
-                            }
-                        icon={{url: "https://maps.google.com/mapfiles/ms/icons/pink-dot.png"}}
-                        name={element.restaurantName}
-                    />
-                )};
-
 
                 {props.restaurantsFiltered !== false && props.restaurantsFiltered.map(
-                    (element, index) => <Marker
-                        key={index}
-                        position=
-                            {
+                    (element, index) =>
+                        <Marker
+                            key={index}
+                            position=
                                 {
-                                    lat: element.lat,
-                                    lng: element.lng
+                                    {
+                                        lat: element.lat,
+                                        lng: element.lng
+                                    }
                                 }
-                            }
 
-                        icon={{url: "https://maps.google.com/mapfiles/ms/icons/blue-dot.png"}}
-                        name={element.restaurantName}
-                    />
+                            icon={{url: "https://maps.google.com/mapfiles/ms/icons/blue-dot.png"}}
+                            name={element.restaurantName}
+                            onClick={() => handleToggleOpen(index)}
+                        >
+                            {openInfoWindowMarkerId === index && isDisplayInfoWindowMarker === true &&
+                            <InfoWindow
+                                options=
+                                    {
+                                        {
+                                            pixelOffset:
+                                                {
+                                                    width: 0,
+                                                    height: 0
+                                                }
+                                        }
+                                    }
+                                position=
+                                    {
+                                        {
+                                            lat: element.lat,
+                                            lng: element.lng
+                                        }
+                                    }
+                                onCloseClick={hideInfoWindow}
+                            >
+
+
+                                <div className={classes.infoWindow}>
+                                    <img
+                                        src={`https://maps.googleapis.com/maps/api/streetview?size=640x320&location=${element.lat},${element.lng}&heading=220.78&key=AIzaSyC2-n39eQnutXECIDc-9tlNMNFmxzshDtE&amp`}
+                                        alt="restaurant picture"
+                                    />
+                                    <p>{element.restaurantName}</p>
+                                </div>
+
+
+                            </InfoWindow>
+                            }
+                        </Marker>
                 )}
 
                 <Marker
@@ -181,7 +213,8 @@ const Map = (props) => {
                                         }
                                 }
                             }
-                        position={currentPosition}>
+                        position={currentPosition}
+                    >
                         <div>
                             <p>Votre position actuelle</p>
                         </div>
