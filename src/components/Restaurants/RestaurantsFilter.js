@@ -30,18 +30,14 @@ const RestaurantsFilter = () => {
         <form className={classes.formFilter} onSubmit={formRestaurantsFilter}>
             <h4>Filtrer les restaurants par notes:</h4>
             <FormControl variant="standard" sx={{m: 1, minWidth: 120}}>
-                <InputLabel className={classes.inputLabel} id="demo-simple-select-standard-label">Étoile</InputLabel>
+                <InputLabel className="inputLabel" id="select-start-filter">Étoile</InputLabel>
                 <Select
-                    labelId="demo-simple-select-standard-label"
-                    id="demo-simple-select-standard"
+                    labelId="select-start-filter-label"
+                    id="select-start-filter"
                     value={minStars}
                     onChange={minStarsChangeHandler}
-                    label="Étoiles"
-                    className={classes.select}
+                    className="select"
                 >
-                    <MenuItem value="">
-                        <em>Aucun</em>
-                    </MenuItem>
                     <MenuItem value={1}>1</MenuItem>
                     <MenuItem value={2}>2</MenuItem>
                     <MenuItem value={3}>3</MenuItem>
@@ -72,37 +68,6 @@ const RestaurantsFilter = () => {
             <button className={[classes.backgroundBtn, 'button', 'button--anthe'].join(' ')} type='submit'>
                 <span>Rechercher</span>
             </button>
-
-            {/*------------- Ancien code -----------------------------*/}
-            {/*<div>*/}
-            {/*    <div className={classes.selectContainer}>*/}
-            {/*        <span>Entre </span>*/}
-            {/*        <select name="minStars" id="minStars" required onChange={minStarsChangeHandler}>*/}
-            {/*            <option value="1">1</option>*/}
-            {/*            <option value="2">2</option>*/}
-            {/*            <option value="3">3</option>*/}
-            {/*            <option value="4">4</option>*/}
-            {/*            <option value="5">5</option>*/}
-            {/*        </select>*/}
-            {/*        <span> Et </span>*/}
-            {/*        <select name="maxStars" id="maxStars" value={maxStars} required onChange={maxStarsChangeHandler}>*/}
-            {/*            <option value="1">1</option>*/}
-            {/*            <option value="2">2</option>*/}
-            {/*            <option value="3">3</option>*/}
-            {/*            <option value="4">4</option>*/}
-            {/*            <option value="5">5</option>*/}
-            {/*        </select>*/}
-            {/*        <span> Étoiles</span>*/}
-            {/*    </div>*/}
-            {/*    <div>*/}
-            {/*        <button className={[classes.backgroundBtn, 'button', 'button--anthe'].join(' ')} type='submit'>*/}
-            {/*            <span>Rechercher</span>*/}
-            {/*        </button>*/}
-            {/*    </div>*/}
-            {/*</div>*/}
-            {/*------------- Ancien code -----------------------------*/}
-
-
         </form>
     );
 };
