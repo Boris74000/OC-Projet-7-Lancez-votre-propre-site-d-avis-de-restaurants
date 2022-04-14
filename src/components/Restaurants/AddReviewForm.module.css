@@ -4,6 +4,7 @@
 
 .addReviewForm h3 {
     position: relative;
+    margin: 2rem 0;
 }
 
 .addReviewForm h3:before {
@@ -15,6 +16,10 @@
     width: 78px;
     background: black;
     display: block;
+}
+
+.addReviewForm > div:last-child {
+    margin-top: 2rem;
 }
 
 .backgroundBtn::before {

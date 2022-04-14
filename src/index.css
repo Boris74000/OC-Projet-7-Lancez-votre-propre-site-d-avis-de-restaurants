@@ -107,15 +107,10 @@ li, p {
     margin-bottom: 0.5rem;
 }
 
-textarea:focus {
-    border: 2px solid var(--color-primary);
-    outline: none;
-}
-
-textarea {
-    box-shadow: inset 0 1px 2px 0 rgba(50, 50, 50, 0.3);
-    border: 1px solid #dbdad5;
-}
+/*textarea:focus {*/
+/*    border: 2px solid var(--color-primary);*/
+/*    outline: none;*/
+/*}*/
 
 select {
     height: 30px;
@@ -133,6 +128,18 @@ select {
 .gm-style-iw-d {
     overflow: auto !important;
 }
+
+.select:after, .MuiInput-root:after {
+    border-bottom: 2px solid var(--color-primary) !important;
+}
+
+.MuiInputLabel-root.Mui-focused {
+    color: #000 !important;
+}
+
+/*.inputLabel {*/
+/*    display: none;*/
+/*}*/
 
 
 
