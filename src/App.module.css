@@ -1,7 +1,6 @@
 .mapAndListContainer, section {
     display: flex;
     justify-content: center;
-    /*margin-top: 2rem;*/
 }
 
 .list {
@@ -11,4 +10,6 @@
 .filterSection {
     padding: 1rem 0;
     border-bottom: 1px solid #aea2a2;
+    align-items: end;
+    justify-content: center;
 }

@@ -1,14 +1,24 @@
 .formFilter {
     display: flex;
-    align-items: baseline;
+    flex-direction: column;
+    align-items: center;
 }
 
 .formFilter > div {
     display: flex;
 }
 
+.formFilter > div:last-child {
+    align-items: baseline;
+}
+
 .formFilter h4 {
-    margin: 0 1rem 0 0;
+    margin-top: 5px;
+    margin-bottom: 1rem;
+}
+
+.formFilter button {
+    height: max-content;
 }
 
 .selectContainer {
@@ -29,6 +39,11 @@
 
 .backgroundBtn:hover::before {
     background-color: var(--color-primary);
+}
+
+.btnAddRestaurant {
+    margin-left: 3rem;
+    margin-bottom: 11px;
 }
 
 .select:after {
