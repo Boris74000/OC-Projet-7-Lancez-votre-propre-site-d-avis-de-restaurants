@@ -1,7 +1,12 @@
 import React, {useState, useCallback, useEffect, useContext} from "react";
+
+import googleMapApiKey from "./../../assets/googleMapApiKey.json";
+
 import {GoogleMap, Marker, InfoWindow, useJsApiLoader} from "@react-google-maps/api";
 import AddNewRestaurantForm from "../Restaurants/AddNewRestaurantForm/AddNewRestaurantForm";
+
 import classes from "./Map.module.css";
+
 import {RestaurantContext} from "../../store/RestaurantContext";
 
 const Map = (props) => {
@@ -18,7 +23,7 @@ const Map = (props) => {
         props.addNewRestaurant(data);
     }
 
-    const getRestaurantsInBounds = () => {
+    const getBounds = () => {
         ctx.updateBounds({
             boundsNordEstlat: map.getBounds().getNorthEast().lat(),
             boundsNordEstlng: map.getBounds().getNorthEast().lng(),
@@ -55,12 +60,11 @@ const Map = (props) => {
 
     const {isLoaded} = useJsApiLoader({
         id: "google-map-script",
-        googleMapsApiKey: "AIzaSyC2-n39eQnutXECIDc-9tlNMNFmxzshDtE",
+        googleMapsApiKey: googleMapApiKey.key,
         libraries: ["places"]
     });
 
     const onMapLoad = (map) => {
-        // setTimeout(() => {
         let service = new window.google.maps.places.PlacesService(map);
 
         let request = {
@@ -105,7 +109,6 @@ const Map = (props) => {
 
             }
         });
-        // });
 
         setMap(map);
     };
@@ -120,10 +123,6 @@ const Map = (props) => {
             });
         }, 100);
     }, [map]);
-
-    const onUnmount = useCallback(function callback(map) {
-        setMap(null);
-    }, []);
 
     const handleToggleOpen = (markerId) => {
         setIsDisplayInfoWindowMarker(true);
@@ -141,8 +140,7 @@ const Map = (props) => {
                 center={currentPosition}
                 zoom={11}
                 onLoad={(map) => onMapLoad(map)}
-                onUnmount={onUnmount}
-                onBoundsChanged={getRestaurantsInBounds}
+                onBoundsChanged={getBounds}
                 onClick={getPositionClickedOnMap}
             >
 
@@ -184,7 +182,6 @@ const Map = (props) => {
                                 onCloseClick={hideInfoWindow}
                             >
 
-
                                 <div className={classes.infoWindow}>
                                     <img
                                         src={`https://maps.googleapis.com/maps/api/streetview?size=640x320&location=${element.lat},${element.lng}&heading=220.78&key=AIzaSyC2-n39eQnutXECIDc-9tlNMNFmxzshDtE&amp`}
@@ -192,7 +189,6 @@ const Map = (props) => {
                                     />
                                     <p>{element.restaurantName}</p>
                                 </div>
-
 
                             </InfoWindow>
                             }
@@ -220,7 +216,6 @@ const Map = (props) => {
                         </div>
                     </InfoWindow>
                 </Marker>
-
             </GoogleMap>
 
             {isDisplayAddNewRestaurantForm &&
