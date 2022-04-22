@@ -1,11 +1,13 @@
 import React, {useEffect, useState, useContext} from "react";
 
+import Header from "./components/Layout/Header";
 import Map from "./components/Map/Map";
 import RestaurantsList from "./components/Restaurants/RestaurantsList";
-import {RestaurantContext} from "./store/RestaurantContext";
-import classes from "./App.module.css";
 import RestaurantsFilter from "./components/Restaurants/RestaurantsFilter";
-import Header from "./components/Layout/Header";
+
+import {RestaurantContext} from "./store/RestaurantContext";
+
+import classes from "./App.module.css";
 
 function App() {
     const ctx = useContext(RestaurantContext);
@@ -35,7 +37,7 @@ function App() {
             } else {
                 setRestaurantsFiltered(false);
             }
-        }, 200)
+        }, 800)
 
     }, [ctx.minStars, ctx.maxStars, ctx.bounds, ctx.restaurants]);
 
