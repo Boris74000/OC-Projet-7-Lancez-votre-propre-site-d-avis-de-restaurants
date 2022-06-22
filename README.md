@@ -48,8 +48,8 @@ Ce projet a été lancé avec [Create React App](https://github.com/facebook/cre
 
 ## Récupération du projet
 
-Vous pouvez récupérer l'application en utilisant Git avec la commande ```git clone https://gitlab.com/Boris74000/lancez_votre_propre_site_d_avis_de_restaurants.git```
-ou en [Téléchargeant le zip](https://gitlab.com/Boris74000/lancez_votre_propre_site_d_avis_de_restaurants/-/archive/master/lancez_votre_propre_site_d_avis_de_restaurants-master.zip). 
+Vous pouvez récupérer l'application en utilisant Git avec la commande ```git clone https://github.com/Boris74000/OC-Projet-7-Lancez-votre-propre-site-d-avis-de-restaurants.git```
+ou en [Téléchargeant le zip](https://github.com/Boris74000/OC-Projet-7-Lancez-votre-propre-site-d-avis-de-restaurants/archive/refs/heads/master.zip). 
 
 ## Installation de l'application
 
