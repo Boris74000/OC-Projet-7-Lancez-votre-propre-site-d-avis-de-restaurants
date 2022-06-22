@@ -16,6 +16,7 @@ const Map = (props) => {
     const [isDisplayInfoWindowMarker, setIsDisplayInfoWindowMarker] = useState(false);
     const [openInfoWindowMarkerId, setOpenInfoWindowMarkerId] = useState();
     const [positionClickedOnMap, setPositionClickedOnMap] = useState();
+    const [libraries] = useState(['places']);
 
     const ctx = useContext(RestaurantContext);
 
@@ -41,34 +42,38 @@ const Map = (props) => {
         setIsDisplayAddNewRestaurantForm(false);
     }
 
-    const success = position => {
-        const currentPosition = {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude
-        }
-        setCurrentPosition(currentPosition);
-    };
-
     useEffect(() => {
-        navigator.geolocation.getCurrentPosition(success);
+        // navigator.geolocation.getCurrentPosition(success);
+        navigator.geolocation.getCurrentPosition(function (position) {
+                const currentPosition = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                }
+                setCurrentPosition(currentPosition);
+            },
+            function (e) {
+                setCurrentPosition(false);
+            });
     }, []);
+
 
     const containerStyle = {
         height: "100%",
         width: "100%"
     };
 
-    const {isLoaded} = useJsApiLoader({
+    const {isLoaded, loadError} = useJsApiLoader({
         id: "google-map-script",
         googleMapsApiKey: googleMapApiKey.key,
-        libraries: ["places"]
+        libraries
     });
 
     const onMapLoad = (map) => {
         let service = new window.google.maps.places.PlacesService(map);
 
         let request = {
-            location: {lng: currentPosition.lng, lat: currentPosition.lat},
+            location: currentPosition ? {lng: currentPosition.lng, lat: currentPosition.lat} : {lng: 6.129017551823277, lat: 45.89925328534124},
+            // location: {lng: currentPosition.lng, lat: currentPosition.lat},
             radius: '800',
             type: ['restaurant']
         };
@@ -137,7 +142,14 @@ const Map = (props) => {
         <div className={classes.mapContainer}>
             <GoogleMap
                 mapContainerStyle={containerStyle}
-                center={currentPosition}
+                center={currentPosition ?
+                    currentPosition
+                    :
+                    {
+                        lat: 45.89925328534124,
+                        lng: 6.129017551823277
+                    }
+                }
                 zoom={11}
                 onLoad={(map) => onMapLoad(map)}
                 onBoundsChanged={getBounds}
