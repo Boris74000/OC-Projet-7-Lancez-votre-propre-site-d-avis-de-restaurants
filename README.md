@@ -1,70 +1,71 @@
-# Getting Started with Create React App
+# OpenClassrooms Projet 7, Lancez votre propre site d'avis de restaurants
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Consignes
 
-## Available Scripts
+Pour ce projet, vous allez devoir apprendre à utiliser des API externes, telles que celles de Google Maps et de Google Places (votre plus gros concurrent 😉 ). Et ce n'est pas tout : vous allez devoir orchestrer toutes ces informations de manière cohérente dans votre application !
 
-In the project directory, you can run:
+![Screenshot de l'application](src/assets/images/screenshot-app.png)
 
-### `npm start`
+### Etape 1 : la carte des restaurants
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Commencez par les fondations de votre application. Il y aura 2 sections principales :
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- Une carte Google Maps, chargée avec l'API de Google Maps
+- Une liste de restaurants correspondant à la zone affichée sur la carte Google Maps
 
-### `npm test`
+Vous placerez ces éléments côte à côte.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+La carte Google Maps sera centrée immédiatement sur la position de l'utilisateur. Vous utiliserez l'API de géolocalisation de JavaScript. Un marqueur de couleur spécifique sera placé à l'emplacement de l'utilisateur.
 
-### `npm run build`
+Une liste de restaurants est fournie sous forme de données JSON présentées dans un fichier à part. En temps normal, ces données vous seraient renvoyés par un backend via une API, mais pour cet exercice il sera pour le moment suffisant de charger en mémoire tous les restaurants en mémoire directement.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Affichez ces restaurants grâce à leurs coordonnées GPS sur la carte. Les restaurants qui sont actuellement visibles sur la carte doivent être affichés sous forme de liste sur le côté de la carte. Vous afficherez la moyenne des commentaires de chaque restaurant (qui va de 1 à 5 étoiles).
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Lorsqu'on clique sur un restaurant, la liste des avis enregistrés s'affiche avec les commentaires. Affichez aussi la photo Google Street View grâce à l'API correspondante.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Un outil de filtre permet d'afficher uniquement les restaurants ayant entre X et Y étoiles. La mise à jour de la carte s'effectue en temps réel.
 
-### `npm run eject`
+### Etape 2 : ajoutez des restaurants et des avis !
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Vos visiteurs aimeraient eux aussi donner leur avis sur des restaurants !Proposez-leur :
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- D'ajouter un avis sur un restaurant existant
+- D'ajouter un restaurant, en cliquant sur un lieu spécifique de la carte
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Une fois un avis ou un restaurant ajouté, il apparaît immédiatement sur la carte. Un nouveau marqueur apparaît pour indiquer la position du nouveau restaurant.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Les informations ne seront pas sauvegardées si on quitte la page (elles restent juste en mémoire le temps de la visite).
 
-## Learn More
+### Etape 3 : intégration avec l'API de Google Places
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Pour l'instant, il n'y a pas beaucoup de restaurants et pas beaucoup d'avis. Heureusement, Google Places propose une API pour récupérer des restaurants et des avis. Servez-vous en pour afficher des restaurants et avis supplémentaires sur votre carte !
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Vous utiliserez la search api pour trouver des restaurants dans la zone affichée.
 
-### Code Splitting
+## Démarrage du projet avec Create React App
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Ce projet a été lancé avec [Create React App](https://github.com/facebook/create-react-app).
 
-### Analyzing the Bundle Size
+## Récupération du projet
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Vous pouvez récupérer l'application en utilisant Git avec la commande ```git clone https://gitlab.com/Boris74000/lancez_votre_propre_site_d_avis_de_restaurants.git```
+ou en [Téléchargeant le zip](https://gitlab.com/Boris74000/lancez_votre_propre_site_d_avis_de_restaurants/-/archive/master/lancez_votre_propre_site_d_avis_de_restaurants-master.zip). 
 
-### Making a Progressive Web App
+## Installation de l'application
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+- Téléchargez et installer [Node.js](https://nodejs.org/fr/download/ "download node.js").
+- Vérifiez que Node.js est bien installé en exécutant dans la console ```node -v ```.
+- À la racine du projet, lancez la commande ``npm install``.
+- Dans le fichier src/components/Map/Map.js, à la ligne 67, remplacez "googleMapApiKey.key" par votre propre clé API google map
+![code import clé api google map](src/assets/images/screenshot-google-api-key.png.jpg)
+- Lancez la commande ```npm start```.
 
-### Advanced Configuration
+Ouvrez [http://localhost:3000](http://localhost:3000) pour voir l'application dans le navigateur.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+La page se rechargera lorsque vous apporterez des modifications.
 
-### Deployment
+# Technologies
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- React 17.0.2
+- Material UI
+- Google map API
